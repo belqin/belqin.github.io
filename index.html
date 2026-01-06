@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BioAsistan | Profesyonel Laboratuvar Aracı</title>
+    <title>BioAsistan Pro | Laboratuvar Yönetim Sistemi</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -45,33 +45,36 @@
         .nav-tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 5px;
             margin: -25px auto 20px auto;
             background: white;
-            padding: 8px;
+            padding: 5px;
             border-radius: 50px;
             box-shadow: var(--shadow);
-            width: 90%;
-            max-width: 500px;
+            width: 95%;
+            max-width: 600px;
             position: relative;
             z-index: 101;
+            flex-wrap: nowrap;
+            overflow-x: auto;
         }
 
         .nav-btn {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 25px;
             color: var(--text-light);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
         .nav-btn.active { background-color: var(--primary); color: white; shadow: var(--shadow); }
@@ -79,13 +82,13 @@
 
         /* --- Main Content Area --- */
         .container { max-width: 800px; margin: 0 auto; padding: 0 15px 80px 15px; flex: 1; }
-        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section { display: none; animation: fadeIn 0.3s ease; }
         .section.active { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Calculator Cards --- */
-        .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        /* --- Calculator Styles --- */
+        .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
         .calc-card-mini {
             background: white; padding: 20px; border-radius: var(--radius);
             box-shadow: var(--shadow); text-align: center; cursor: pointer;
@@ -93,11 +96,10 @@
         }
         .calc-card-mini:hover { border-color: var(--primary-light); transform: translateY(-3px); }
         .calc-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; display: block; }
-        .calc-title { font-weight: 600; font-size: 0.95rem; }
+        .calc-title { font-weight: 600; font-size: 0.9rem; }
 
-        /* --- Active Calculator View --- */
         .calculator-view { background: white; border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); position: relative; }
-        .close-calc { position: absolute; top: 15px; right: 15px; background: #f0f0f0; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; color: #555; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: #f0f0f0; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; color: #555; display: flex; align-items: center; justify-content: center;}
         
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main); font-size: 0.9rem; }
@@ -122,14 +124,41 @@
         .result-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
         .result-desc { font-size: 0.9rem; color: var(--text-light); }
 
-        /* --- Reference Cards (Info) --- */
-        .info-card { background: white; border-radius: var(--radius); overflow: hidden; margin-bottom: 15px; box-shadow: var(--shadow); }
+        /* --- Info & Test Styles --- */
+        .info-card, .test-card { background: white; border-radius: var(--radius); overflow: hidden; margin-bottom: 15px; box-shadow: var(--shadow); }
         .info-header {
             padding: 15px 20px; background: #fafafa; border-bottom: 1px solid #eee;
             font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
         }
         .info-body { padding: 20px; display: none; font-size: 0.9rem; line-height: 1.5; color: #444; }
         .info-body.show { display: block; }
+
+        /* --- Test Tab Specifics --- */
+        .search-container { position: sticky; top: 0; background: var(--bg-body); padding-bottom: 15px; z-index: 10; }
+        .search-input { width: 100%; padding: 15px; border-radius: 30px; border: 1px solid #ddd; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 1rem; padding-left: 20px; }
+        
+        .test-list-item {
+            background: white; padding: 15px 20px; border-radius: var(--radius); margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s;
+        }
+        .test-list-item:hover { transform: translateX(5px); border-left: 4px solid var(--primary); }
+        .test-code { font-size: 0.8rem; color: var(--text-light); background: #eee; padding: 2px 6px; border-radius: 4px; margin-right: 10px;}
+        
+        /* Test Detail View */
+        .test-detail-view { display: none; background: white; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+        .test-detail-header { border-bottom: 2px solid var(--primary-light); padding-bottom: 10px; margin-bottom: 15px; }
+        .test-detail-title { font-size: 1.5rem; color: var(--primary); font-weight: 700; }
+        .test-general-info { font-style: italic; color: #555; margin-bottom: 20px; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        
+        .device-card { border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+        .device-header { background: #f1f5f9; padding: 12px 15px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .device-body { padding: 15px; display: none; background: white; }
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #eee; }
+        .data-label { color: #666; font-size: 0.85rem; }
+        .data-value { font-weight: 600; color: #333; }
+
+        /* --- Tags --- */
         .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: white; margin-right: 5px; }
         .tag.red { background: #e53935; }
         .tag.yellow { background: #fbc02d; color: #333; }
@@ -153,9 +182,8 @@
 
         /* Mobile tweaks */
         @media (max-width: 480px) {
-            .nav-tabs { width: 95%; margin-top: -20px; }
-            .nav-btn span { display: none; } /* Sadece ikon göster */
-            .nav-btn i { font-size: 1.2rem; }
+            .nav-tabs { justify-content: flex-start; }
+            .nav-btn span { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -163,12 +191,15 @@
 
     <header>
         <h1>BİYOKİMYA ASİSTAN</h1>
-        <p>Hızlı Hesaplamalar & Referanslar</p>
+        <p>Profesyonel Laboratuvar Yönetim Aracı</p>
     </header>
 
     <div class="nav-tabs">
         <button class="nav-btn active" onclick="switchTab('tab-calc')">
             <i class="fa-solid fa-calculator"></i> <span>Hesapla</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('tab-tests')">
+            <i class="fa-solid fa-microscope"></i> <span>Testler</span>
         </button>
         <button class="nav-btn" onclick="switchTab('tab-info')">
             <i class="fa-solid fa-book-medical"></i> <span>Rehber</span>
@@ -193,25 +224,17 @@
                 </div>
                 <div class="calc-card-mini" onclick="openCalc('homa')">
                     <span class="calc-icon"><i class="fa-solid fa-dna"></i></span>
-                    <div class="calc-title">HOMA-IR (İnsülin)</div>
+                    <div class="calc-title">HOMA-IR</div>
                 </div>
                 <div class="calc-card-mini" onclick="openCalc('calcium')">
                     <span class="calc-icon"><i class="fa-solid fa-bone"></i></span>
-                    <div class="calc-title">Düzeltilmiş Kalsiyum</div>
+                    <div class="calc-title">Düzeltilmiş Ca</div>
                 </div>
             </div>
 
             <div id="calc-urine24" class="calculator-view" style="display: none;">
-                <button class="close-calc" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
                 <h3 style="margin-bottom: 20px; color: var(--primary);">24 Saatlik İdrar Testleri</h3>
-                <div class="input-group">
-                    <label>Test Tipi</label>
-                    <select id="urineType">
-                        <option value="protein">Protein / Albumin</option>
-                        <option value="kreatinin">Kreatinin</option>
-                        <option value="kalsiyum">Kalsiyum</option>
-                    </select>
-                </div>
                 <div class="input-group">
                     <label>İdrar Volümü (mL)</label>
                     <input type="number" id="uVol" placeholder="Örn: 1500">
@@ -219,63 +242,77 @@
                 <div class="input-group">
                     <label>Konsantrasyon (mg/dL)</label>
                     <input type="number" id="uConc" placeholder="Cihaz çıktısı">
-                    <div class="helper-text">Dikkat: Birim mg/dL olmalıdır.</div>
                 </div>
                 <button class="btn-calc" onclick="calculateUrine()">HESAPLA</button>
                 <div class="result-box" id="res-urine"></div>
             </div>
 
             <div id="calc-ldl" class="calculator-view" style="display: none;">
-                <button class="close-calc" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
-                <h3 style="margin-bottom: 20px; color: var(--primary);">LDL Hesaplama (Friedewald)</h3>
+                <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
+                <h3 style="margin-bottom: 20px; color: var(--primary);">LDL Hesaplama</h3>
                 <div class="input-group">
-                    <label>Total Kolesterol (mg/dL)</label>
-                    <input type="number" id="ldl-tot">
+                    <label>Total Kolesterol</label> <input type="number" id="ldl-tot">
                 </div>
                 <div class="input-group">
-                    <label>HDL Kolesterol (mg/dL)</label>
-                    <input type="number" id="ldl-hdl">
+                    <label>HDL Kolesterol</label> <input type="number" id="ldl-hdl">
                 </div>
                 <div class="input-group">
-                    <label>Trigliserid (mg/dL)</label>
-                    <input type="number" id="ldl-trig">
-                    <div class="helper-text">Trigliserid > 400 mg/dL ise formül geçersizdir.</div>
+                    <label>Trigliserid</label> <input type="number" id="ldl-trig">
                 </div>
-                <button class="btn-calc" onclick="calculateLDL()">LDL HESAPLA</button>
+                <button class="btn-calc" onclick="calculateLDL()">HESAPLA</button>
                 <div class="result-box" id="res-ldl"></div>
             </div>
 
             <div id="calc-homa" class="calculator-view" style="display: none;">
-                <button class="close-calc" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
-                <h3 style="margin-bottom: 20px; color: var(--primary);">HOMA-IR (İnsülin Direnci)</h3>
+                <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
+                <h3 style="margin-bottom: 20px; color: var(--primary);">HOMA-IR</h3>
                 <div class="input-group">
-                    <label>Açlık Glukoz (mg/dL)</label>
-                    <input type="number" id="homa-glu">
+                    <label>Açlık Glukoz (mg/dL)</label> <input type="number" id="homa-glu">
                 </div>
                 <div class="input-group">
-                    <label>Açlık İnsülin (µIU/mL)</label>
-                    <input type="number" id="homa-ins">
+                    <label>Açlık İnsülin (µIU/mL)</label> <input type="number" id="homa-ins">
                 </div>
-                <button class="btn-calc" onclick="calculateHoma()">HOMA-IR HESAPLA</button>
+                <button class="btn-calc" onclick="calculateHoma()">HESAPLA</button>
                 <div class="result-box" id="res-homa"></div>
             </div>
 
             <div id="calc-calcium" class="calculator-view" style="display: none;">
-                <button class="close-calc" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
                 <h3 style="margin-bottom: 20px; color: var(--primary);">Düzeltilmiş Kalsiyum</h3>
                 <div class="input-group">
-                    <label>Total Kalsiyum (mg/dL)</label>
-                    <input type="number" id="ca-tot">
+                    <label>Total Kalsiyum</label> <input type="number" id="ca-tot">
                 </div>
                 <div class="input-group">
-                    <label>Albumin (g/dL)</label>
-                    <input type="number" id="ca-alb">
-                    <div class="helper-text">Genellikle Albumin < 4.0 g/dL olduğunda kullanılır.</div>
+                    <label>Albumin</label> <input type="number" id="ca-alb">
                 </div>
-                <button class="btn-calc" onclick="calculateCa()">DÜZELTME YAP</button>
+                <button class="btn-calc" onclick="calculateCa()">HESAPLA</button>
                 <div class="result-box" id="res-ca"></div>
             </div>
+        </div>
 
+        <div id="tab-tests" class="section">
+            <div id="test-list-view">
+                <div class="search-container">
+                    <input type="text" id="testSearchInput" class="search-input" placeholder="Test parametresi ara..." onkeyup="filterTests()">
+                </div>
+                <div id="testListContainer">
+                    </div>
+            </div>
+
+            <div id="test-detail-view" class="test-detail-view">
+                <button class="nav-btn" style="background: #eee; width: auto; display: inline-flex; margin-bottom: 15px;" onclick="closeTestDetail()">
+                    <i class="fa-solid fa-arrow-left"></i> Listeye Dön
+                </button>
+                
+                <div class="test-detail-header">
+                    <h2 id="detail-title" class="test-detail-title">Test Adı</h2>
+                </div>
+                <p id="detail-general" class="test-general-info">Genel Bilgi...</p>
+
+                <h4 style="margin-bottom: 10px; color: var(--accent);">Cihaz Bilgileri</h4>
+                <div id="detail-devices">
+                    </div>
+            </div>
         </div>
 
         <div id="tab-info" class="section">
@@ -283,56 +320,26 @@
             
             <div class="info-card">
                 <div class="info-header" onclick="toggleInfo(this)">
-                    <span>Tüp Renk Kodları</span>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <span>Tüp Renk Kodları</span> <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="info-body">
-                    <p><span class="tag red">Kırmızı</span> <strong>Tüpsüz/Jelli:</strong> Biyokimya, Hormon (Serum elde edilir).</p>
-                    <p style="margin-top:10px;"><span class="tag yellow">Sarı</span> <strong>Jelli:</strong> Biyokimya rutin testler.</p>
-                    <p style="margin-top:10px;"><span class="tag purple">Mor</span> <strong>EDTA:</strong> Hemogram, HbA1c, ACTH (Plazma/Tam kan).</p>
-                    <p style="margin-top:10px;"><span class="tag blue">Mavi</span> <strong>Sitrat:</strong> Koagülasyon (PT, aPTT, D-Dimer).</p>
+                    <p><span class="tag red">Kırmızı</span> <strong>Tüpsüz/Jelli:</strong> Biyokimya, Hormon.</p>
+                    <p style="margin-top:10px;"><span class="tag yellow">Sarı</span> <strong>Jelli:</strong> Rutin Biyokimya.</p>
+                    <p style="margin-top:10px;"><span class="tag purple">Mor</span> <strong>EDTA:</strong> Hemogram, HbA1c.</p>
+                    <p style="margin-top:10px;"><span class="tag blue">Mavi</span> <strong>Sitrat:</strong> Koagülasyon.</p>
                 </div>
             </div>
-
+            
             <div class="info-card">
                 <div class="info-header" onclick="toggleInfo(this)">
-                    <span>Örnek Red Kriterleri</span>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <span>Kritik (Panik) Değerler</span> <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="info-body">
-                    <ul style="padding-left: 20px;">
-                        <li><strong>Hemoliz:</strong> K+, LDH, AST, ALT yanlış yüksek çıkar.</li>
-                        <li><strong>Lipemi:</strong> Trigliserid yüksekliğinde bulanıklık. Total protein ve hemoglobin yanlış ölçülebilir.</li>
-                        <li><strong>Pıhtı:</strong> Hemogram ve Koagülasyon tüplerinde mikropıhtı varsa reddedilir.</li>
-                        <li><strong>Yetersiz Miktar:</strong> Mavi kapaklı tüplerde çizgiye kadar kan dolmalıdır.</li>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom:5px;"><strong>Glukoz:</strong> < 40 veya > 500</li>
+                        <li style="margin-bottom:5px;"><strong>Potasyum:</strong> < 2.5 veya > 6.5</li>
+                        <li style="margin-bottom:5px;"><strong>Kalsiyum:</strong> < 6.0 veya > 13.0</li>
                     </ul>
-                </div>
-            </div>
-
-            <div class="info-card">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <span>Kritik (Panik) Değerler</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="info-body">
-                    <table style="width:100%; border-collapse: collapse;">
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 5px;"><strong>Glukoz</strong></td>
-                            <td style="padding: 5px; color: var(--danger);">< 40 veya > 500 mg/dL</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 5px;"><strong>Potasyum (K)</strong></td>
-                            <td style="padding: 5px; color: var(--danger);">< 2.5 veya > 6.5 mmol/L</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 5px;"><strong>Sodyum (Na)</strong></td>
-                            <td style="padding: 5px; color: var(--danger);">< 120 veya > 160 mmol/L</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 5px;"><strong>Kalsiyum</strong></td>
-                            <td style="padding: 5px; color: var(--danger);">< 6.0 veya > 13.0 mg/dL</td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         </div>
@@ -340,8 +347,7 @@
         <div id="tab-notes" class="section">
             <div class="notepad">
                 <h3 style="margin-bottom: 10px; color: var(--primary);">Hızlı Notlar</h3>
-                <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Burası tarayıcı hafızasına kaydedilir, sayfayı yenileseniz de silinmez.</p>
-                <textarea id="myNotes" class="note-area" placeholder="Nöbet notları, hatırlatmalar, takip edilecek hastalar..." oninput="saveNotes()"></textarea>
+                <textarea id="myNotes" class="note-area" placeholder="Nöbet notları..." oninput="saveNotes()"></textarea>
                 <div id="saveStatus" class="note-status"></div>
             </div>
         </div>
@@ -354,169 +360,289 @@
     </footer>
 
     <script>
-        // --- TAB YÖNETİMİ ---
+        // --- 1. VERİTABANI (TEST PARAMETRELERİ) ---
+        // Buraya istediğiniz kadar test ekleyebilirsiniz.
+        const testsDatabase = [
+            {
+                id: 'glu',
+                name: 'Glukoz (Glucose)',
+                code: 'GLU',
+                general: 'Karbonhidrat metabolizmasının ana parametresidir. DM tanı ve takibinde kullanılır.',
+                devices: [
+                    {
+                        brand: 'Beckman Coulter (AU Series)',
+                        method: 'Hekzokinaz',
+                        range: '10 - 800 mg/dL',
+                        ref: '74 - 106 mg/dL',
+                        sample: 'Serum, Plazma (Yeşil)'
+                    },
+                    {
+                        brand: 'Roche (Cobas)',
+                        method: 'Hekzokinaz',
+                        range: '2 - 750 mg/dL',
+                        ref: '70 - 100 mg/dL',
+                        sample: 'Serum, Plazma'
+                    }
+                ]
+            },
+            {
+                id: 'crea',
+                name: 'Kreatinin (Creatinine)',
+                code: 'CREA',
+                general: 'Böbrek fonksiyonlarının değerlendirilmesinde kullanılır (GFR).',
+                devices: [
+                    {
+                        brand: 'Beckman Coulter',
+                        method: 'Jaffe (Kinetik)',
+                        range: '0.2 - 25.0 mg/dL',
+                        ref: 'K: 0.6-1.1, E: 0.7-1.3',
+                        sample: 'Serum'
+                    },
+                    {
+                        brand: 'Siemens Atellica',
+                        method: 'Enzimatik',
+                        range: '0.1 - 30.0 mg/dL',
+                        ref: '0.5 - 1.2 mg/dL',
+                        sample: 'Serum'
+                    }
+                ]
+            },
+            {
+                id: 'ast',
+                name: 'AST (Aspartat Aminotransferaz)',
+                code: 'AST',
+                general: 'Karaciğer ve kas hasarı göstergesidir.',
+                devices: [
+                    {
+                        brand: 'Roche (Cobas)',
+                        method: 'IFCC (P5P)',
+                        range: '5 - 700 U/L',
+                        ref: '< 40 U/L',
+                        sample: 'Serum'
+                    }
+                ]
+            },
+            {
+                id: 'tsh',
+                name: 'TSH (Tiroid Stimülan Hormon)',
+                code: 'TSH',
+                general: 'Tiroid fonksiyonlarının ilk basamak testidir.',
+                devices: [
+                    {
+                        brand: 'Beckman Coulter (DxI)',
+                        method: 'Chemiluminescence',
+                        range: '0.01 - 100 µIU/mL',
+                        ref: '0.38 - 5.33 µIU/mL',
+                        sample: 'Serum (Kırmızı)'
+                    }
+                ]
+            },
+             {
+                id: 'alt',
+                name: 'ALT (Alanin Aminotransferaz)',
+                code: 'ALT',
+                general: 'Karaciğer spesifik enzimdir. Hepatoselüler hasarda artar.',
+                devices: [
+                    {
+                        brand: 'Beckman Coulter',
+                        method: 'IFCC',
+                        range: '3 - 500 U/L',
+                        ref: '< 41 U/L',
+                        sample: 'Serum'
+                    }
+                ]
+            }
+        ];
+
+        // --- 2. TAB YÖNETİMİ ---
         function switchTab(tabId) {
-            // Butonları güncelle
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active'); // Mobilde ikon sorunu olmasın diye currentTarget
+            // Mobilde tıklama hedefi sorunu için closest kullanıyoruz
+            event.target.closest('button').classList.add('active');
             
-            // İçerikleri güncelle
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-
-            // Eğer hesaplama ekranı açıksa ve tab değiştiyse, ana menüye dön
-            if(tabId === 'tab-calc') {
-                closeCalc();
+            
+            if(tabId === 'tab-calc') closeCalc();
+            if(tabId === 'tab-tests') {
+                renderTestList(testsDatabase); // Listeyi yenile
+                closeTestDetail(); // Detay açıksa kapat
             }
         }
 
-        // --- HESAPLAMA UI YÖNETİMİ ---
+        // --- 3. TEST MODÜLÜ MANTIĞI ---
+        
+        // Listeyi ekrana basar
+        function renderTestList(data) {
+            const container = document.getElementById('testListContainer');
+            container.innerHTML = '';
+            
+            // Alfabetik sırala
+            data.sort((a, b) => a.name.localeCompare(b.name));
+
+            if(data.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">Test bulunamadı.</div>';
+                return;
+            }
+
+            data.forEach(test => {
+                const item = document.createElement('div');
+                item.className = 'test-list-item';
+                item.onclick = () => showTestDetail(test);
+                item.innerHTML = `
+                    <span style="font-weight:600; color:#333;">${test.name}</span>
+                    <span class="test-code">${test.code}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Arama yapıldığında
+        function filterTests() {
+            const query = document.getElementById('testSearchInput').value.toLocaleLowerCase('tr');
+            const filtered = testsDatabase.filter(test => 
+                test.name.toLocaleLowerCase('tr').includes(query) || 
+                test.code.toLocaleLowerCase('tr').includes(query)
+            );
+            renderTestList(filtered);
+        }
+
+        // Test detayını göster
+        function showTestDetail(test) {
+            document.getElementById('test-list-view').style.display = 'none';
+            document.getElementById('test-detail-view').style.display = 'block';
+
+            document.getElementById('detail-title').textContent = test.name;
+            document.getElementById('detail-general').textContent = test.general;
+
+            const devicesContainer = document.getElementById('detail-devices');
+            devicesContainer.innerHTML = '';
+
+            test.devices.forEach(dev => {
+                const card = document.createElement('div');
+                card.className = 'device-card';
+                card.innerHTML = `
+                    <div class="device-header" onclick="toggleDeviceBody(this)">
+                        <span>${dev.brand}</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="device-body">
+                        <div class="data-row">
+                            <span class="data-label">Metot</span>
+                            <span class="data-value">${dev.method}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Ölçüm Aralığı</span>
+                            <span class="data-value">${dev.range}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Referans Aralık</span>
+                            <span class="data-value" style="color:var(--primary)">${dev.ref}</span>
+                        </div>
+                         <div class="data-row" style="border-bottom:none;">
+                            <span class="data-label">Örnek</span>
+                            <span class="data-value">${dev.sample}</span>
+                        </div>
+                    </div>
+                `;
+                devicesContainer.appendChild(card);
+            });
+        }
+
+        function closeTestDetail() {
+            document.getElementById('test-detail-view').style.display = 'none';
+            document.getElementById('test-list-view').style.display = 'block';
+        }
+
+        function toggleDeviceBody(header) {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('i');
+            if(body.style.display === 'block') {
+                body.style.display = 'none';
+                icon.className = 'fa-solid fa-chevron-down';
+            } else {
+                body.style.display = 'block';
+                icon.className = 'fa-solid fa-chevron-up';
+            }
+        }
+
+
+        // --- 4. HESAPLAMA MANTIĞI (Eski Kodlar) ---
         function openCalc(id) {
             document.getElementById('calc-menu').style.display = 'none';
-            document.querySelectorAll('.calculator-view').forEach(view => view.style.display = 'none');
-            document.getElementById('calc-' + id).style.display = 'block';
-            
-            // Sonuçları temizle
-            document.querySelectorAll('.result-box').forEach(box => {
-                box.style.display = 'none';
-                box.innerHTML = '';
-            });
-            document.querySelectorAll('input').forEach(input => input.value = '');
+            document.querySelectorAll('.calculator-view').forEach(v => v.style.display='none');
+            document.getElementById('calc-'+id).style.display = 'block';
+            document.querySelectorAll('.result-box').forEach(b => b.style.display='none');
         }
 
         function closeCalc() {
-            document.querySelectorAll('.calculator-view').forEach(view => view.style.display = 'none');
+            document.querySelectorAll('.calculator-view').forEach(v => v.style.display='none');
             document.getElementById('calc-menu').style.display = 'grid';
         }
 
-        function toggleInfo(headerElement) {
-            const body = headerElement.nextElementSibling;
-            const icon = headerElement.querySelector('i');
-            
-            if (body.classList.contains('show')) {
-                body.classList.remove('show');
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-            } else {
-                body.classList.add('show');
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-            }
-        }
-
-        // --- HESAPLAMA MANTIĞI ---
-
-        // 1. 24 Saatlik İdrar
         function calculateUrine() {
             const vol = parseFloat(document.getElementById('uVol').value);
             const conc = parseFloat(document.getElementById('uConc').value);
             const resDiv = document.getElementById('res-urine');
-
-            if (!vol || !conc) {
-                resDiv.style.display = 'block';
-                resDiv.innerHTML = '<span style="color:red">Lütfen tüm değerleri giriniz.</span>';
-                return;
-            }
-
-            // Formül: (Volüm * Konsantrasyon) / 100
-            const result = (vol * conc) / 100;
-            
+            if(!vol || !conc) return;
+            const res = (vol * conc) / 100;
             resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <div class="result-val">${result.toFixed(2)} mg/gün</div>
-                <div class="result-desc">${(result/1000).toFixed(3)} g/gün</div>
-            `;
+            resDiv.innerHTML = `<div class="result-val">${res.toFixed(2)} mg/gün</div><div class="result-desc">${(res/1000).toFixed(3)} g/gün</div>`;
         }
 
-        // 2. LDL Friedewald
         function calculateLDL() {
             const tot = parseFloat(document.getElementById('ldl-tot').value);
             const hdl = parseFloat(document.getElementById('ldl-hdl').value);
             const trig = parseFloat(document.getElementById('ldl-trig').value);
             const resDiv = document.getElementById('res-ldl');
-
-            if (!tot || !hdl || !trig) {
-                alert("Eksik veri girişi!");
-                return;
+            if(!tot || !hdl || !trig) return;
+            if(trig > 400) {
+                resDiv.style.display='block'; resDiv.innerHTML='<span style="color:red">Trigliserid > 400! Formül geçersiz.</span>'; return;
             }
-
-            if (trig > 400) {
-                resDiv.style.display = 'block';
-                resDiv.innerHTML = '<span style="color:red">Trigliserid > 400 mg/dL olduğu için Friedewald formülü kullanılamaz. Direkt LDL ölçümü önerilir.</span>';
-                return;
-            }
-
-            // Formül: LDL = Total - HDL - (Trig / 5)
-            const ldl = tot - hdl - (trig / 5);
-
+            const ldl = tot - hdl - (trig/5);
             resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <div class="result-val">${ldl.toFixed(0)} mg/dL</div>
-                <div class="result-desc">VLDL Tahmini: ${(trig/5).toFixed(0)} mg/dL</div>
-            `;
+            resDiv.innerHTML = `<div class="result-val">${ldl.toFixed(0)} mg/dL</div><div class="result-desc">Friedewald</div>`;
         }
 
-        // 3. HOMA-IR
         function calculateHoma() {
             const glu = parseFloat(document.getElementById('homa-glu').value);
             const ins = parseFloat(document.getElementById('homa-ins').value);
             const resDiv = document.getElementById('res-homa');
-
-            if (!glu || !ins) return;
-
-            // Formül: (Glukoz * İnsülin) / 405
+            if(!glu || !ins) return;
             const homa = (glu * ins) / 405;
-            
-            let comment = "";
-            if (homa > 2.5) comment = "İnsülin direnci riski yüksek.";
-            else comment = "Normal sınırlar içinde.";
-
             resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <div class="result-val">${homa.toFixed(2)}</div>
-                <div class="result-desc">${comment}</div>
-            `;
+            resDiv.innerHTML = `<div class="result-val">${homa.toFixed(2)}</div><div class="result-desc">${homa>2.5 ? 'İnsülin Direnci Riski' : 'Normal'}</div>`;
         }
 
-        // 4. Düzeltilmiş Kalsiyum
         function calculateCa() {
             const ca = parseFloat(document.getElementById('ca-tot').value);
             const alb = parseFloat(document.getElementById('ca-alb').value);
             const resDiv = document.getElementById('res-ca');
-
-            if (!ca || !alb) return;
-
-            // Formül: Total Ca + 0.8 * (4 - Albumin)
-            const corrCa = ca + 0.8 * (4.0 - alb);
-
+            if(!ca || !alb) return;
+            const corr = ca + 0.8 * (4.0 - alb);
             resDiv.style.display = 'block';
-            resDiv.innerHTML = `
-                <div class="result-desc">Ölçülen Ca: ${ca} mg/dL</div>
-                <div class="result-val">${corrCa.toFixed(2)} mg/dL</div>
-                <div class="result-desc">Düzeltilmiş Değer</div>
-            `;
+            resDiv.innerHTML = `<div class="result-val">${corr.toFixed(2)} mg/dL</div><div class="result-desc">Düzeltilmiş Ca</div>`;
         }
 
-        // --- NOT KAYIT SİSTEMİ (LocalStorage) ---
-        function loadNotes() {
-            const savedNote = localStorage.getItem('labAssistantNotes');
-            if (savedNote) {
-                document.getElementById('myNotes').value = savedNote;
-            }
+        // --- 5. REHBER & NOTLAR ---
+        function toggleInfo(header) {
+            const body = header.nextElementSibling;
+            if(body.classList.contains('show')) body.classList.remove('show');
+            else body.classList.add('show');
         }
+
+        window.onload = function() {
+            const saved = localStorage.getItem('labAssistantNotes');
+            if(saved) document.getElementById('myNotes').value = saved;
+            renderTestList(testsDatabase); // İlk açılışta listeyi oluştur
+        };
 
         function saveNotes() {
-            const text = document.getElementById('myNotes').value;
-            localStorage.setItem('labAssistantNotes', text);
-            
+            localStorage.setItem('labAssistantNotes', document.getElementById('myNotes').value);
             const status = document.getElementById('saveStatus');
             status.textContent = "Kaydedildi...";
-            setTimeout(() => { status.textContent = ""; }, 1000);
+            setTimeout(() => status.textContent = "", 1000);
         }
-
-        // Sayfa açılışında notları yükle
-        window.onload = loadNotes;
-
     </script>
 </body>
 </html>
