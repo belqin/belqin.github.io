@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tıbbi Laboratuvar Hesaplayıcı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00897b; /* Teal 600 - Flutter'daki renge yakın */
+            --primary-dark: #004d40;
+            --bg-color: #f0f4f4;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-radius: 16px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        /* Ana Konteyner (Mobil uygulama hissi için) */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            min-height: 80vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* İçerik Alanı */
+        .content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Arama Kutusu */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0, 137, 123, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        /* Liste Öğeleri */
+        .test-list {
+            list-style: none;
+        }
+
+        .test-item {
+            background: #fff;
+            border: 1px solid #eee;
+            margin-bottom: 10px;
+            padding: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .test-item:hover {
+            border-color: var(--primary-color);
+            background-color: #fcfcfc;
+            transform: translateY(-2px);
+        }
+
+        .test-item::after {
+            content: '›';
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            line-height: 0;
+        }
+
+        /* Hesaplama Sayfası */
+        .calc-view {
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            height: 100%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            cursor: pointer;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .calc-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .calc-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Sonuç Kartı */
+        .result-card {
+            margin-top: 30px;
+            background-color: #e0f2f1; /* Teal 50 */
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #b2dfdb;
+            display: none; /* Hesaplama yapılana kadar gizli */
+        }
+
+        .result-title {
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #999;
+            margin-top: 50px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <button id="backButton" class="back-btn" style="display: none;" onclick="goHome()">←</button>
+            <h1 id="pageTitle">LABORATUVAR HESAPLAYICI</h1>
+        </header>
+
+        <div class="content">
+            
+            <div id="homeView">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Test ara..." onkeyup="filterTests()">
+                </div>
+                <ul id="testList" class="test-list">
+                    </ul>
+                <div id="emptyState" class="empty-state">Sonuç bulunamadı.</div>
+            </div>
+
+            <div id="calcView" class="calc-view">
+                <div class="input-group">
+                    <label for="volumeInput">İdrar Volümü (mL)</label>
+                    <input type="number" id="volumeInput" placeholder="Örn: 1500" inputmode="decimal">
+                </div>
+
+                <div class="input-group">
+                    <label id="concLabel" for="concInput">Konsantrasyon (mg/dL)</label>
+                    <input type="number" id="concInput" placeholder="Örn: 0.5" inputmode="decimal">
+                </div>
+
+                <button class="calc-btn" onclick="calculate()">HESAPLA</button>
+
+                <div id="resultCard" class="result-card">
+                    <div class="result-title">24 Saatlik Miktar</div>
+                    <div class="result-value" id="resultValue">0.00 mg/gün</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Veri Listesi (Flutter kodundaki ile aynı)
+        const tests = [
+            "24 Saatlik İdrarda Albumin",
+            "24 Saatlik İdrarda Fosfor",
+            "24 Saatlik İdrarda Kalsiyum",
+            "24 Saatlik İdrarda Kreatinin",
+            "24 Saatlik İdrarda Protein"
+        ];
+
+        let currentTestName = "";
+
+        // Sayfa Yüklendiğinde Listeyi Oluştur
+        window.onload = function() {
+            renderList(tests);
+        };
+
+        // Listeyi Ekrana Basma Fonksiyonu
+        function renderList(data) {
+            const listContainer = document.getElementById('testList');
+            const emptyState = document.getElementById('emptyState');
+            listContainer.innerHTML = "";
+
+            if (data.length === 0) {
+                emptyState.style.display = "block";
+            } else {
+                emptyState.style.display = "none";
+                data.forEach(test => {
+                    const li = document.createElement('li');
+                    li.className = 'test-item';
+                    li.textContent = test;
+                    li.onclick = () => openCalculator(test);
+                    listContainer.appendChild(li);
+                });
+            }
+        }
+
+        // Arama/Filtreleme Fonksiyonu
+        function filterTests() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = tests.filter(test => test.toLowerCase().includes(query));
+            renderList(filtered);
+        }
+
+        // Hesaplama Sayfasını Aç
+        function openCalculator(testName) {
+            currentTestName = testName;
+            
+            // UI Güncellemeleri
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('calcView').style.display = 'flex';
+            document.getElementById('backButton').style.display = 'block';
+            document.getElementById('pageTitle').textContent = testName.toUpperCase(); // Başlığı test adı yap
+            
+            // Label'ı dinamik yap (Test adının son kelimesini al: Albumin, Protein vs.)
+            const shortName = testName.split(' ').pop(); 
+            document.getElementById('concLabel').textContent = `${shortName} Konsantrasyonu (mg/dL)`;
+
+            // İnputları ve sonucu temizle
+            document.getElementById('volumeInput').value = '';
+            document.getElementById('concInput').value = '';
+            document.getElementById('resultCard').style.display = 'none';
+        }
+
+        // Ana Sayfaya Dön
+        function goHome() {
+            document.getElementById('calcView').style.display = 'none';
+            document.getElementById('homeView').style.display = 'block';
+            document.getElementById('backButton').style.display = 'none';
+            document.getElementById('pageTitle').textContent = "TIBBİ LABORATUVAR";
+        }
+
+        // Hesaplama Mantığı (Flutter: (b2 * b3) / 100)
+        function calculate() {
+            const volume = parseFloat(document.getElementById('volumeInput').value);
+            const concentration = parseFloat(document.getElementById('concInput').value);
+
+            // Basit Validasyon
+            if (isNaN(volume) || isNaN(concentration)) {
+                alert("Lütfen geçerli sayısal değerler giriniz.");
+                return;
+            }
+
+            // Formül
+            const result = (volume * concentration) / 100;
+
+            // Sonucu Göster
+            document.getElementById('resultValue').textContent = result.toFixed(2) + " mg/gün";
+            document.getElementById('resultCard').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
