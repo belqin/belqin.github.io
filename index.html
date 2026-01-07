@@ -50,7 +50,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (DÜZELTİLDİ: Sticky kaldırıldı) --- */
         header {
             background: var(--header-bg);
             color: white;
@@ -58,8 +58,10 @@
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
+            
+            /* Sticky (yapışkan) özellik iptal edildi. Artık sayfa ile kayacak. */
+            position: relative; 
+            
             z-index: 100;
             display: flex;
             justify-content: space-between;
@@ -85,17 +87,17 @@
             transition: background 0.3s;
         }
 
-        /* --- NAV TABS (GÜNCELLENDİ) --- */
+        /* --- NAV TABS --- */
         .nav-tabs {
             display: flex;
-            justify-content: center; /* Ortala */
-            gap: 10px; /* Butonlar arası boşluk */
-            
-            /* Genişliği içeriğe göre ayarla, böylece yayılmaz */
+            justify-content: center;
+            gap: 10px;
             width: fit-content; 
-            min-width: 320px; /* Çok da küçülmesin */
+            min-width: 320px;
             
+            /* Header ile birlikte hareket edeceği için bu negatif margin artık sorun yaratmaz */
             margin: -40px auto 20px auto; 
+            
             background: var(--bg-card);
             padding: 8px 12px;
             border-radius: 20px;
@@ -106,8 +108,7 @@
         }
 
         .nav-btn {
-            /* flex: 1; KALDIRILDI -> Artık uzamıyor */
-            width: 85px; /* Sabit genişlik ile derli toplu durur */
+            width: 85px;
             border: none;
             background: transparent;
             padding: 8px 4px;
@@ -117,7 +118,6 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 0.8rem;
-            
             display: flex;
             flex-direction: column; 
             align-items: center;
@@ -189,8 +189,15 @@
         
         [data-theme="dark"] .result-val, [data-theme="dark"] .result-desc { color: #134e4a; }
 
-        /* --- TEST LİSTESİ --- */
-        .search-container { position: sticky; top: 0; background: var(--bg-body); padding-bottom: 15px; z-index: 10; padding-top: 5px; }
+        /* --- TEST LİSTESİ (DÜZELTİLDİ: Sticky kaldırıldı) --- */
+        .search-container { 
+            /* Sticky kaldırıldı, artık kaydırınca yukarı gidip kaybolacak */
+            position: relative; 
+            background: var(--bg-body); 
+            padding-bottom: 15px; 
+            z-index: 10; 
+            padding-top: 5px; 
+        }
         .search-input { 
             width: 100%; padding: 15px; border-radius: 30px; 
             background: var(--bg-card); border: 1px solid var(--border-color); 
@@ -234,19 +241,19 @@
         footer { text-align: center; padding: 25px; color: var(--text-light); font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border-color); background: var(--bg-card); }
         .signature { font-weight: 600; color: var(--primary); margin-top: 5px; display: inline-block; }
 
-        /* --- MOBİL UYUMLULUK (Telefonda Yine Geniş Olsun) --- */
+        /* --- MOBİL UYUMLULUK --- */
         @media (max-width: 480px) {
             header h1 { font-size: 1.25rem; }
             .nav-tabs { 
-                width: 95%; /* Mobilde ekranı kaplasın */
+                width: 95%; 
                 margin-top: -30px; 
-                justify-content: space-between; /* Mobilde eşit dağılsın */
+                justify-content: space-between; 
                 gap: 5px;
             }
             .nav-btn { 
                 font-size: 0.75rem; 
-                width: auto; /* Mobilde sabit genişlik olmasın */
-                flex: 1; /* Mobilde hepsi eşit yayılsın */
+                width: auto; 
+                flex: 1; 
             }
         }
     </style>
@@ -385,7 +392,7 @@
         <div id="tab-notes" class="section">
             <div class="notepad">
                 <h3 style="margin-bottom: 10px; color: var(--primary);">Kişisel Notlar</h3>
-                <textarea id="myNotes" class="note-area" placeholder="Aynı cihaz üzerinden girdiğiniz müddetçe bu alandaki notlar sadece sizin tarafınızca görüntülenir." oninput="saveNotes()"></textarea>
+                <textarea id="myNotes" class="note-area" placeholder="Kaydedilen notlar sadece sizde gözükmektedir." oninput="saveNotes()"></textarea>
                 <div id="saveStatus" class="note-status"></div>
             </div>
         </div>
