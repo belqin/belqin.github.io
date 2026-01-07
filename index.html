@@ -3,203 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BioAsistan Pro | Laboratuvar Yönetim Sistemi</title>
+    <title>Tıbbi Biyokimya Asistanı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* --- TEMA DEĞİŞKENLERİ --- */
         :root {
-            --primary: #00695c; /* Koyu Turkuaz */
-            --primary-light: #4db6ac;
-            --accent: #004d40;
+            --primary: #0d9488; 
+            --primary-dark: #0f766e;
+            --primary-light: #ccfbf1;
             --bg-body: #f3f4f6;
             --bg-card: #ffffff;
-            --text-main: #1f2937;
+            --bg-input: #ffffff;
+            --text-main: #111827;
             --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --danger: #ef4444;
             --success: #10b981;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --radius: 12px;
+            --radius: 16px;
+            --header-bg: linear-gradient(135deg, #0d9488, #115e59);
+        }
+
+        [data-theme="dark"] {
+            --primary: #2dd4bf; 
+            --primary-dark: #14b8a6;
+            --primary-light: #134e4a;
+            --bg-body: #111827; 
+            --bg-card: #1f2937; 
+            --bg-input: #374151;
+            --text-main: #f9fafb;
+            --text-light: #9ca3af;
+            --border-color: #374151;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --header-bg: linear-gradient(135deg, #134e4a, #042f2e);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-        /* --- Header --- */
+        /* --- HEADER --- */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: var(--header-bg);
             color: white;
-            padding: 1.5rem;
-            text-align: center;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+            padding: 2.5rem 1.5rem 4.5rem 1.5rem; 
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 100;
-        }
-        header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
-        header p { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; font-weight: 300; }
-
-        /* --- Tab Navigation --- */
-        .nav-tabs {
             display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin: -25px auto 20px auto;
-            background: white;
-            padding: 5px;
-            border-radius: 50px;
-            box-shadow: var(--shadow);
-            width: 95%;
-            max-width: 600px;
-            position: relative;
-            z-index: 101;
-            flex-wrap: nowrap;
-            overflow-x: auto;
+            justify-content: space-between;
+            align-items: flex-start;
         }
+        
+        .header-content { flex: 1; text-align: center; padding-left: 40px; }
+        header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.5px; line-height: 1.2; }
+        header p { font-size: 0.9rem; opacity: 0.9; margin-top: 8px; font-weight: 400; }
 
-        .nav-btn {
-            flex: 1;
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            background: transparent;
-            padding: 10px 15px;
-            border-radius: 25px;
-            color: var(--text-light);
-            font-weight: 600;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        /* --- NAV TABS (GÜNCELLENDİ) --- */
+        .nav-tabs {
+            display: flex;
+            justify-content: center; /* Ortala */
+            gap: 10px; /* Butonlar arası boşluk */
+            
+            /* Genişliği içeriğe göre ayarla, böylece yayılmaz */
+            width: fit-content; 
+            min-width: 320px; /* Çok da küçülmesin */
+            
+            margin: -40px auto 20px auto; 
+            background: var(--bg-card);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 101;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            /* flex: 1; KALDIRILDI -> Artık uzamıyor */
+            width: 85px; /* Sabit genişlik ile derli toplu durur */
+            border: none;
+            background: transparent;
+            padding: 8px 4px;
+            border-radius: 14px;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
             white-space: nowrap;
         }
 
-        .nav-btn.active { background-color: var(--primary); color: white; shadow: var(--shadow); }
-        .nav-btn i { font-size: 1rem; }
+        .nav-btn i { font-size: 1.2rem; margin-bottom: 0; }
 
-        /* --- Main Content Area --- */
+        .nav-btn.active { 
+            background-color: var(--primary-light); 
+            color: var(--primary-dark); 
+        }
+        
+        [data-theme="dark"] .nav-btn.active {
+            color: #ffffff;
+            background-color: var(--primary);
+        }
+
+        /* --- CONTAINER --- */
         .container { max-width: 800px; margin: 0 auto; padding: 0 15px 80px 15px; flex: 1; }
         .section { display: none; animation: fadeIn 0.3s ease; }
         .section.active { display: block; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Calculator Styles --- */
+        /* --- KARTLAR --- */
         .grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        
         .calc-card-mini {
-            background: white; padding: 20px; border-radius: var(--radius);
+            background: var(--bg-card); padding: 20px; border-radius: var(--radius);
             box-shadow: var(--shadow); text-align: center; cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s; border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s; border: 1px solid var(--border-color);
         }
-        .calc-card-mini:hover { border-color: var(--primary-light); transform: translateY(-3px); }
+        .calc-card-mini:hover { border-color: var(--primary); transform: translateY(-3px); }
         .calc-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; display: block; }
-        .calc-title { font-weight: 600; font-size: 0.9rem; }
+        .calc-title { font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
 
-        .calculator-view { background: white; border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); position: relative; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: #f0f0f0; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; color: #555; display: flex; align-items: center; justify-content: center;}
+        .calculator-view { background: var(--bg-card); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); position: relative; border: 1px solid var(--border-color); }
+        .close-btn { 
+            position: absolute; top: 15px; right: 15px; 
+            background: var(--bg-body); border: 1px solid var(--border-color); 
+            width: 32px; height: 32px; border-radius: 50%; 
+            cursor: pointer; color: var(--text-main); display: flex; align-items: center; justify-content: center;
+        }
         
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main); font-size: 0.9rem; }
         .input-group input, .input-group select {
-            width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px;
-            font-size: 1rem; transition: border-color 0.3s; outline: none;
+            width: 100%; padding: 14px; background: var(--bg-input);
+            border: 1px solid var(--border-color); border-radius: 12px;
+            font-size: 1rem; color: var(--text-main); outline: none;
         }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.1); }
-        .helper-text { font-size: 0.75rem; color: var(--text-light); margin-top: 4px; }
-
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+        
         .btn-calc {
             width: 100%; background-color: var(--primary); color: white; border: none;
-            padding: 14px; border-radius: 8px; font-weight: 600; font-size: 1rem;
-            cursor: pointer; transition: background 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: background 0.3s; 
         }
         .btn-calc:active { transform: scale(0.98); }
 
         .result-box {
-            margin-top: 25px; padding: 20px; background-color: #f0fdf4; border: 1px solid #bbf7d0;
-            border-radius: 8px; text-align: center; display: none;
+            margin-top: 25px; padding: 20px; background-color: var(--primary-light); 
+            border: 1px solid var(--primary); border-radius: 12px; text-align: center; display: none;
         }
-        .result-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 5px 0; }
-        .result-desc { font-size: 0.9rem; color: var(--text-light); }
-
-        /* --- Info & Test Styles --- */
-        .info-card, .test-card { background: white; border-radius: var(--radius); overflow: hidden; margin-bottom: 15px; box-shadow: var(--shadow); }
-        .info-header {
-            padding: 15px 20px; background: #fafafa; border-bottom: 1px solid #eee;
-            font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-        }
-        .info-body { padding: 20px; display: none; font-size: 0.9rem; line-height: 1.5; color: #444; }
-        .info-body.show { display: block; }
-
-        /* --- Test Tab Specifics --- */
-        .search-container { position: sticky; top: 0; background: var(--bg-body); padding-bottom: 15px; z-index: 10; }
-        .search-input { width: 100%; padding: 15px; border-radius: 30px; border: 1px solid #ddd; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 1rem; padding-left: 20px; }
+        .result-val { font-size: 1.8rem; font-weight: 800; color: var(--primary-dark); margin: 5px 0; }
+        .result-desc { font-size: 0.9rem; color: var(--primary-dark); opacity: 0.9; }
         
+        [data-theme="dark"] .result-val, [data-theme="dark"] .result-desc { color: #134e4a; }
+
+        /* --- TEST LİSTESİ --- */
+        .search-container { position: sticky; top: 0; background: var(--bg-body); padding-bottom: 15px; z-index: 10; padding-top: 5px; }
+        .search-input { 
+            width: 100%; padding: 15px; border-radius: 30px; 
+            background: var(--bg-card); border: 1px solid var(--border-color); 
+            outline: none; box-shadow: var(--shadow); font-size: 1rem; padding-left: 25px; color: var(--text-main);
+        }
         .test-list-item {
-            background: white; padding: 15px 20px; border-radius: var(--radius); margin-bottom: 10px;
+            background: var(--bg-card); padding: 18px 20px; border-radius: var(--radius); margin-bottom: 10px;
             display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: all 0.2s;
+            box-shadow: var(--shadow); transition: all 0.2s; border: 1px solid var(--border-color);
         }
         .test-list-item:hover { transform: translateX(5px); border-left: 4px solid var(--primary); }
-        .test-code { font-size: 0.8rem; color: var(--text-light); background: #eee; padding: 2px 6px; border-radius: 4px; margin-right: 10px;}
-        
-        /* Test Detail View */
-        .test-detail-view { display: none; background: white; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
-        .test-detail-header { border-bottom: 2px solid var(--primary-light); padding-bottom: 10px; margin-bottom: 15px; }
+        .test-name { color: var(--text-main); font-weight: 600; }
+        .test-code { font-size: 0.8rem; color: var(--text-main); background: var(--bg-body); padding: 4px 8px; border-radius: 6px; margin-right: 10px; border: 1px solid var(--border-color);}
+
+        /* Test Detay */
+        .test-detail-view { display: none; background: var(--bg-card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
+        .test-detail-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px; }
         .test-detail-title { font-size: 1.5rem; color: var(--primary); font-weight: 700; }
-        .test-general-info { font-style: italic; color: #555; margin-bottom: 20px; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        .test-general-info { font-style: italic; color: var(--text-light); margin-bottom: 20px; background: var(--bg-body); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);}
         
-        .device-card { border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
-        .device-header { background: #f1f5f9; padding: 12px 15px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-        .device-body { padding: 15px; display: none; background: white; }
-        .data-row { display: flex; justify-content: space-between; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #eee; }
-        .data-label { color: #666; font-size: 0.85rem; }
-        .data-value { font-weight: 600; color: #333; }
+        .device-card { border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+        .device-header { background: var(--bg-body); color: var(--text-main); padding: 12px 15px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .device-body { padding: 15px; display: none; background: var(--bg-card); color: var(--text-main); }
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed var(--border-color); }
+        .data-label { color: var(--text-light); font-size: 0.85rem; }
+        .data-value { font-weight: 600; color: var(--text-main); }
 
-        /* --- Tags --- */
-        .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: white; margin-right: 5px; }
-        .tag.red { background: #e53935; }
-        .tag.yellow { background: #fbc02d; color: #333; }
-        .tag.blue { background: #1e88e5; }
-        .tag.purple { background: #8e24aa; }
+        /* --- DİĞER --- */
+        .info-card { background: var(--bg-card); border-radius: var(--radius); overflow: hidden; margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
+        .info-header { padding: 18px 20px; background: var(--bg-body); border-bottom: 1px solid var(--border-color); font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text-main); }
+        .info-body { padding: 20px; display: none; font-size: 0.95rem; line-height: 1.6; color: var(--text-main); }
+        .info-body.show { display: block; }
+        
+        .tag { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; color: white; margin-right: 5px; }
+        .tag.red { background: #ef4444; } .tag.yellow { background: #eab308; color: #fff; } .tag.blue { background: #3b82f6; } .tag.purple { background: #a855f7; }
 
-        /* --- Notes Section --- */
-        .notepad { background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); height: 100%; display: flex; flex-direction: column; }
-        .note-area {
-            width: 100%; height: 300px; border: 1px solid #eee; border-radius: 8px; padding: 15px;
-            font-size: 1rem; line-height: 1.6; resize: none; outline: none; background: #fffdf0; color: #333;
-        }
+        .notepad { background: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); height: 100%; display: flex; flex-direction: column; border: 1px solid var(--border-color); }
+        .note-area { width: 100%; height: 350px; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; font-size: 1rem; line-height: 1.6; resize: none; outline: none; background: var(--bg-input); color: var(--text-main); }
         .note-status { font-size: 0.8rem; color: var(--success); margin-top: 10px; text-align: right; min-height: 20px;}
 
-        /* --- Footer --- */
-        footer {
-            text-align: center; padding: 20px; color: var(--text-light); font-size: 0.8rem;
-            margin-top: auto; border-top: 1px solid #eee; background: white;
-        }
-        .signature { font-weight: 600; color: var(--primary); }
+        footer { text-align: center; padding: 25px; color: var(--text-light); font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border-color); background: var(--bg-card); }
+        .signature { font-weight: 600; color: var(--primary); margin-top: 5px; display: inline-block; }
 
-        /* Mobile tweaks */
+        /* --- MOBİL UYUMLULUK (Telefonda Yine Geniş Olsun) --- */
         @media (max-width: 480px) {
-            .nav-tabs { justify-content: flex-start; }
-            .nav-btn span { font-size: 0.75rem; }
+            header h1 { font-size: 1.25rem; }
+            .nav-tabs { 
+                width: 95%; /* Mobilde ekranı kaplasın */
+                margin-top: -30px; 
+                justify-content: space-between; /* Mobilde eşit dağılsın */
+                gap: 5px;
+            }
+            .nav-btn { 
+                font-size: 0.75rem; 
+                width: auto; /* Mobilde sabit genişlik olmasın */
+                flex: 1; /* Mobilde hepsi eşit yayılsın */
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>BİYOKİMYA ASİSTAN</h1>
-        <p>Profesyonel Laboratuvar Yönetim Aracı</p>
+        <div class="header-content">
+            <h1>TIBBİ BİYOKİMYA ASİSTANI</h1>
+            <p>Profesyonel Laboratuvar Yönetim Aracı</p>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+            <i class="fa-solid fa-moon"></i>
+        </button>
     </header>
 
     <div class="nav-tabs">
-        <button class="nav-btn active" onclick="switchTab('tab-calc')">
-            <i class="fa-solid fa-calculator"></i> <span>Hesapla</span>
-        </button>
-        <button class="nav-btn" onclick="switchTab('tab-tests')">
+        <button class="nav-btn active" onclick="switchTab('tab-tests')">
             <i class="fa-solid fa-microscope"></i> <span>Testler</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('tab-calc')">
+            <i class="fa-solid fa-calculator"></i> <span>Hesapla</span>
         </button>
         <button class="nav-btn" onclick="switchTab('tab-info')">
             <i class="fa-solid fa-book-medical"></i> <span>Rehber</span>
@@ -211,8 +280,28 @@
 
     <div class="container">
         
-        <div id="tab-calc" class="section active">
-            
+        <div id="tab-tests" class="section active">
+            <div id="test-list-view">
+                <div class="search-container">
+                    <input type="text" id="testSearchInput" class="search-input" placeholder="Test parametresi ara..." onkeyup="filterTests()">
+                </div>
+                <div id="testListContainer"></div>
+            </div>
+
+            <div id="test-detail-view" class="test-detail-view">
+                <button class="nav-btn" style="background: var(--bg-body); width: auto; display: inline-flex; flex-direction: row; margin-bottom: 15px; border: 1px solid var(--border-color); padding: 8px 15px;" onclick="closeTestDetail()">
+                    <i class="fa-solid fa-arrow-left"></i> Listeye Dön
+                </button>
+                <div class="test-detail-header">
+                    <h2 id="detail-title" class="test-detail-title">Test Adı</h2>
+                </div>
+                <p id="detail-general" class="test-general-info">Genel Bilgi...</p>
+                <h4 style="margin-bottom: 10px; color: var(--primary-dark);">Cihaz Bilgileri</h4>
+                <div id="detail-devices"></div>
+            </div>
+        </div>
+
+        <div id="tab-calc" class="section">
             <div id="calc-menu" class="grid-menu">
                 <div class="calc-card-mini" onclick="openCalc('urine24')">
                     <span class="calc-icon"><i class="fa-solid fa-flask"></i></span>
@@ -234,15 +323,9 @@
 
             <div id="calc-urine24" class="calculator-view" style="display: none;">
                 <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
-                <h3 style="margin-bottom: 20px; color: var(--primary);">24 Saatlik İdrar Testleri</h3>
-                <div class="input-group">
-                    <label>İdrar Volümü (mL)</label>
-                    <input type="number" id="uVol" placeholder="Örn: 1500">
-                </div>
-                <div class="input-group">
-                    <label>Konsantrasyon (mg/dL)</label>
-                    <input type="number" id="uConc" placeholder="Cihaz çıktısı">
-                </div>
+                <h3 style="margin-bottom: 20px; color: var(--primary);">24 Saatlik İdrar</h3>
+                <div class="input-group"><label>İdrar Volümü (mL)</label> <input type="number" id="uVol" placeholder="Örn: 1500"></div>
+                <div class="input-group"><label>Konsantrasyon (mg/dL)</label> <input type="number" id="uConc" placeholder="Cihaz çıktısı"></div>
                 <button class="btn-calc" onclick="calculateUrine()">HESAPLA</button>
                 <div class="result-box" id="res-urine"></div>
             </div>
@@ -250,15 +333,9 @@
             <div id="calc-ldl" class="calculator-view" style="display: none;">
                 <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
                 <h3 style="margin-bottom: 20px; color: var(--primary);">LDL Hesaplama</h3>
-                <div class="input-group">
-                    <label>Total Kolesterol</label> <input type="number" id="ldl-tot">
-                </div>
-                <div class="input-group">
-                    <label>HDL Kolesterol</label> <input type="number" id="ldl-hdl">
-                </div>
-                <div class="input-group">
-                    <label>Trigliserid</label> <input type="number" id="ldl-trig">
-                </div>
+                <div class="input-group"><label>Total Kolesterol</label> <input type="number" id="ldl-tot"></div>
+                <div class="input-group"><label>HDL Kolesterol</label> <input type="number" id="ldl-hdl"></div>
+                <div class="input-group"><label>Trigliserid</label> <input type="number" id="ldl-trig"></div>
                 <button class="btn-calc" onclick="calculateLDL()">HESAPLA</button>
                 <div class="result-box" id="res-ldl"></div>
             </div>
@@ -266,12 +343,8 @@
             <div id="calc-homa" class="calculator-view" style="display: none;">
                 <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
                 <h3 style="margin-bottom: 20px; color: var(--primary);">HOMA-IR</h3>
-                <div class="input-group">
-                    <label>Açlık Glukoz (mg/dL)</label> <input type="number" id="homa-glu">
-                </div>
-                <div class="input-group">
-                    <label>Açlık İnsülin (µIU/mL)</label> <input type="number" id="homa-ins">
-                </div>
+                <div class="input-group"><label>Açlık Glukoz (mg/dL)</label> <input type="number" id="homa-glu"></div>
+                <div class="input-group"><label>Açlık İnsülin (µIU/mL)</label> <input type="number" id="homa-ins"></div>
                 <button class="btn-calc" onclick="calculateHoma()">HESAPLA</button>
                 <div class="result-box" id="res-homa"></div>
             </div>
@@ -279,49 +352,17 @@
             <div id="calc-calcium" class="calculator-view" style="display: none;">
                 <button class="close-btn" onclick="closeCalc()"><i class="fa-solid fa-xmark"></i></button>
                 <h3 style="margin-bottom: 20px; color: var(--primary);">Düzeltilmiş Kalsiyum</h3>
-                <div class="input-group">
-                    <label>Total Kalsiyum</label> <input type="number" id="ca-tot">
-                </div>
-                <div class="input-group">
-                    <label>Albumin</label> <input type="number" id="ca-alb">
-                </div>
+                <div class="input-group"><label>Total Kalsiyum</label> <input type="number" id="ca-tot"></div>
+                <div class="input-group"><label>Albumin</label> <input type="number" id="ca-alb"></div>
                 <button class="btn-calc" onclick="calculateCa()">HESAPLA</button>
                 <div class="result-box" id="res-ca"></div>
             </div>
         </div>
 
-        <div id="tab-tests" class="section">
-            <div id="test-list-view">
-                <div class="search-container">
-                    <input type="text" id="testSearchInput" class="search-input" placeholder="Test parametresi ara..." onkeyup="filterTests()">
-                </div>
-                <div id="testListContainer">
-                    </div>
-            </div>
-
-            <div id="test-detail-view" class="test-detail-view">
-                <button class="nav-btn" style="background: #eee; width: auto; display: inline-flex; margin-bottom: 15px;" onclick="closeTestDetail()">
-                    <i class="fa-solid fa-arrow-left"></i> Listeye Dön
-                </button>
-                
-                <div class="test-detail-header">
-                    <h2 id="detail-title" class="test-detail-title">Test Adı</h2>
-                </div>
-                <p id="detail-general" class="test-general-info">Genel Bilgi...</p>
-
-                <h4 style="margin-bottom: 10px; color: var(--accent);">Cihaz Bilgileri</h4>
-                <div id="detail-devices">
-                    </div>
-            </div>
-        </div>
-
         <div id="tab-info" class="section">
             <h3 style="margin-bottom: 15px; color: var(--text-light);">Laboratuvar El Kitabı</h3>
-            
             <div class="info-card">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <span>Tüp Renk Kodları</span> <i class="fa-solid fa-chevron-down"></i>
-                </div>
+                <div class="info-header" onclick="toggleInfo(this)"><span>Tüp Renk Kodları</span> <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="info-body">
                     <p><span class="tag red">Kırmızı</span> <strong>Tüpsüz/Jelli:</strong> Biyokimya, Hormon.</p>
                     <p style="margin-top:10px;"><span class="tag yellow">Sarı</span> <strong>Jelli:</strong> Rutin Biyokimya.</p>
@@ -329,11 +370,8 @@
                     <p style="margin-top:10px;"><span class="tag blue">Mavi</span> <strong>Sitrat:</strong> Koagülasyon.</p>
                 </div>
             </div>
-            
             <div class="info-card">
-                <div class="info-header" onclick="toggleInfo(this)">
-                    <span>Kritik (Panik) Değerler</span> <i class="fa-solid fa-chevron-down"></i>
-                </div>
+                <div class="info-header" onclick="toggleInfo(this)"><span>Kritik (Panik) Değerler</span> <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="info-body">
                     <ul style="list-style: none;">
                         <li style="margin-bottom:5px;"><strong>Glukoz:</strong> < 40 veya > 500</li>
@@ -346,8 +384,8 @@
 
         <div id="tab-notes" class="section">
             <div class="notepad">
-                <h3 style="margin-bottom: 10px; color: var(--primary);">Hızlı Notlar</h3>
-                <textarea id="myNotes" class="note-area" placeholder="Nöbet notları..." oninput="saveNotes()"></textarea>
+                <h3 style="margin-bottom: 10px; color: var(--primary);">Kişisel Notlar</h3>
+                <textarea id="myNotes" class="note-area" placeholder="Aynı cihaz üzerinden girdiğiniz müddetçe bu alandaki notlar sadece sizin tarafınızca görüntülenir." oninput="saveNotes()"></textarea>
                 <div id="saveStatus" class="note-status"></div>
             </div>
         </div>
@@ -356,293 +394,109 @@
 
     <footer>
         <p>Tıbbi Biyokimya Laboratuvar Asistan Aracı</p>
-        <p class="signature">Hazırlayan: Belgin</p>
+        <p class="signature">Hazırlayan: Uzm. Dr. Belgin ŞARA</p>
     </footer>
 
     <script>
-        // --- 1. VERİTABANI (TEST PARAMETRELERİ) ---
-        // Buraya istediğiniz kadar test ekleyebilirsiniz.
-        const testsDatabase = [
-            {
-                id: 'glu',
-                name: 'Glukoz (Glucose)',
-                code: 'GLU',
-                general: 'Karbonhidrat metabolizmasının ana parametresidir. DM tanı ve takibinde kullanılır.',
-                devices: [
-                    {
-                        brand: 'Beckman Coulter (AU Series)',
-                        method: 'Hekzokinaz',
-                        range: '10 - 800 mg/dL',
-                        ref: '74 - 106 mg/dL',
-                        sample: 'Serum, Plazma (Yeşil)'
-                    },
-                    {
-                        brand: 'Roche (Cobas)',
-                        method: 'Hekzokinaz',
-                        range: '2 - 750 mg/dL',
-                        ref: '70 - 100 mg/dL',
-                        sample: 'Serum, Plazma'
-                    }
-                ]
-            },
-            {
-                id: 'crea',
-                name: 'Kreatinin (Creatinine)',
-                code: 'CREA',
-                general: 'Böbrek fonksiyonlarının değerlendirilmesinde kullanılır (GFR).',
-                devices: [
-                    {
-                        brand: 'Beckman Coulter',
-                        method: 'Jaffe (Kinetik)',
-                        range: '0.2 - 25.0 mg/dL',
-                        ref: 'K: 0.6-1.1, E: 0.7-1.3',
-                        sample: 'Serum'
-                    },
-                    {
-                        brand: 'Siemens Atellica',
-                        method: 'Enzimatik',
-                        range: '0.1 - 30.0 mg/dL',
-                        ref: '0.5 - 1.2 mg/dL',
-                        sample: 'Serum'
-                    }
-                ]
-            },
-            {
-                id: 'ast',
-                name: 'AST (Aspartat Aminotransferaz)',
-                code: 'AST',
-                general: 'Karaciğer ve kas hasarı göstergesidir.',
-                devices: [
-                    {
-                        brand: 'Roche (Cobas)',
-                        method: 'IFCC (P5P)',
-                        range: '5 - 700 U/L',
-                        ref: '< 40 U/L',
-                        sample: 'Serum'
-                    }
-                ]
-            },
-            {
-                id: 'tsh',
-                name: 'TSH (Tiroid Stimülan Hormon)',
-                code: 'TSH',
-                general: 'Tiroid fonksiyonlarının ilk basamak testidir.',
-                devices: [
-                    {
-                        brand: 'Beckman Coulter (DxI)',
-                        method: 'Chemiluminescence',
-                        range: '0.01 - 100 µIU/mL',
-                        ref: '0.38 - 5.33 µIU/mL',
-                        sample: 'Serum (Kırmızı)'
-                    }
-                ]
-            },
-             {
-                id: 'alt',
-                name: 'ALT (Alanin Aminotransferaz)',
-                code: 'ALT',
-                general: 'Karaciğer spesifik enzimdir. Hepatoselüler hasarda artar.',
-                devices: [
-                    {
-                        brand: 'Beckman Coulter',
-                        method: 'IFCC',
-                        range: '3 - 500 U/L',
-                        ref: '< 41 U/L',
-                        sample: 'Serum'
-                    }
-                ]
+        function toggleTheme() {
+            const body = document.body;
+            const btnIcon = document.querySelector('#themeBtn i');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                btnIcon.classList.remove('fa-sun');
+                btnIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btnIcon.classList.remove('fa-moon');
+                btnIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
             }
-        ];
-
-        // --- 2. TAB YÖNETİMİ ---
-        function switchTab(tabId) {
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            // Mobilde tıklama hedefi sorunu için closest kullanıyoruz
-            event.target.closest('button').classList.add('active');
-            
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            
-            if(tabId === 'tab-calc') closeCalc();
-            if(tabId === 'tab-tests') {
-                renderTestList(testsDatabase); // Listeyi yenile
-                closeTestDetail(); // Detay açıksa kapat
+        }
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const btnIcon = document.querySelector('#themeBtn i');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                btnIcon.classList.remove('fa-moon');
+                btnIcon.classList.add('fa-sun');
             }
         }
 
-        // --- 3. TEST MODÜLÜ MANTIĞI ---
-        
-        // Listeyi ekrana basar
+        const testsDatabase = [
+            { id: 'glu', name: 'Glukoz (Glucose)', code: 'GLU', general: 'Karbonhidrat metabolizmasının ana parametresidir.', devices: [ { brand: 'Beckman Coulter', method: 'Hekzokinaz', range: '10 - 800 mg/dL', ref: '74 - 106 mg/dL', sample: 'Serum, Plazma' }, { brand: 'Roche (Cobas)', method: 'Hekzokinaz', range: '2 - 750 mg/dL', ref: '70 - 100 mg/dL', sample: 'Serum, Plazma' } ] },
+            { id: 'crea', name: 'Kreatinin (Creatinine)', code: 'CREA', general: 'Böbrek fonksiyonlarının değerlendirilmesinde kullanılır (GFR).', devices: [ { brand: 'Beckman Coulter', method: 'Jaffe (Kinetik)', range: '0.2 - 25.0 mg/dL', ref: 'K: 0.6-1.1, E: 0.7-1.3', sample: 'Serum' }, { brand: 'Siemens Atellica', method: 'Enzimatik', range: '0.1 - 30.0 mg/dL', ref: '0.5 - 1.2 mg/dL', sample: 'Serum' } ] },
+            { id: 'ast', name: 'AST (Aspartat Aminotransferaz)', code: 'AST', general: 'Karaciğer ve kas hasarı göstergesidir.', devices: [ { brand: 'Roche (Cobas)', method: 'IFCC (P5P)', range: '5 - 700 U/L', ref: '< 40 U/L', sample: 'Serum' } ] },
+            { id: 'alt', name: 'ALT (Alanin Aminotransferaz)', code: 'ALT', general: 'Karaciğer spesifik enzimdir.', devices: [ { brand: 'Beckman Coulter', method: 'IFCC', range: '3 - 500 U/L', ref: '< 41 U/L', sample: 'Serum' } ] },
+            { id: 'tsh', name: 'TSH', code: 'TSH', general: 'Tiroid fonksiyonlarının ilk basamak testidir.', devices: [ { brand: 'Beckman Coulter (DxI)', method: 'Chemiluminescence', range: '0.01 - 100 µIU/mL', ref: '0.38 - 5.33 µIU/mL', sample: 'Serum' } ] }
+        ];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('button').classList.add('active');
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(tabId === 'tab-calc') closeCalc();
+            if(tabId === 'tab-tests') { renderTestList(testsDatabase); closeTestDetail(); }
+        }
+
         function renderTestList(data) {
             const container = document.getElementById('testListContainer');
             container.innerHTML = '';
-            
-            // Alfabetik sırala
             data.sort((a, b) => a.name.localeCompare(b.name));
-
-            if(data.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">Test bulunamadı.</div>';
-                return;
-            }
-
+            if(data.length === 0) { container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-light);">Test bulunamadı.</div>'; return; }
             data.forEach(test => {
                 const item = document.createElement('div');
                 item.className = 'test-list-item';
                 item.onclick = () => showTestDetail(test);
-                item.innerHTML = `
-                    <span style="font-weight:600; color:#333;">${test.name}</span>
-                    <span class="test-code">${test.code}</span>
-                `;
+                item.innerHTML = `<span class="test-name">${test.name}</span><span class="test-code">${test.code}</span>`;
                 container.appendChild(item);
             });
         }
 
-        // Arama yapıldığında
         function filterTests() {
             const query = document.getElementById('testSearchInput').value.toLocaleLowerCase('tr');
-            const filtered = testsDatabase.filter(test => 
-                test.name.toLocaleLowerCase('tr').includes(query) || 
-                test.code.toLocaleLowerCase('tr').includes(query)
-            );
+            const filtered = testsDatabase.filter(test => test.name.toLocaleLowerCase('tr').includes(query) || test.code.toLocaleLowerCase('tr').includes(query));
             renderTestList(filtered);
         }
 
-        // Test detayını göster
         function showTestDetail(test) {
             document.getElementById('test-list-view').style.display = 'none';
             document.getElementById('test-detail-view').style.display = 'block';
-
             document.getElementById('detail-title').textContent = test.name;
             document.getElementById('detail-general').textContent = test.general;
-
             const devicesContainer = document.getElementById('detail-devices');
             devicesContainer.innerHTML = '';
-
             test.devices.forEach(dev => {
                 const card = document.createElement('div');
                 card.className = 'device-card';
                 card.innerHTML = `
-                    <div class="device-header" onclick="toggleDeviceBody(this)">
-                        <span>${dev.brand}</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
+                    <div class="device-header" onclick="toggleDeviceBody(this)"><span>${dev.brand}</span><i class="fa-solid fa-chevron-down"></i></div>
                     <div class="device-body">
-                        <div class="data-row">
-                            <span class="data-label">Metot</span>
-                            <span class="data-value">${dev.method}</span>
-                        </div>
-                        <div class="data-row">
-                            <span class="data-label">Ölçüm Aralığı</span>
-                            <span class="data-value">${dev.range}</span>
-                        </div>
-                        <div class="data-row">
-                            <span class="data-label">Referans Aralık</span>
-                            <span class="data-value" style="color:var(--primary)">${dev.ref}</span>
-                        </div>
-                         <div class="data-row" style="border-bottom:none;">
-                            <span class="data-label">Örnek</span>
-                            <span class="data-value">${dev.sample}</span>
-                        </div>
-                    </div>
-                `;
+                        <div class="data-row"><span class="data-label">Metot</span><span class="data-value">${dev.method}</span></div>
+                        <div class="data-row"><span class="data-label">Ölçüm Aralığı</span><span class="data-value">${dev.range}</span></div>
+                        <div class="data-row"><span class="data-label">Referans</span><span class="data-value" style="color:var(--primary)">${dev.ref}</span></div>
+                        <div class="data-row" style="border-bottom:none;"><span class="data-label">Örnek</span><span class="data-value">${dev.sample}</span></div>
+                    </div>`;
                 devicesContainer.appendChild(card);
             });
         }
 
-        function closeTestDetail() {
-            document.getElementById('test-detail-view').style.display = 'none';
-            document.getElementById('test-list-view').style.display = 'block';
-        }
+        function closeTestDetail() { document.getElementById('test-detail-view').style.display = 'none'; document.getElementById('test-list-view').style.display = 'block'; }
+        function toggleDeviceBody(header) { const body = header.nextElementSibling; const icon = header.querySelector('i'); if(body.style.display === 'block') { body.style.display = 'none'; icon.className = 'fa-solid fa-chevron-down'; } else { body.style.display = 'block'; icon.className = 'fa-solid fa-chevron-up'; } }
 
-        function toggleDeviceBody(header) {
-            const body = header.nextElementSibling;
-            const icon = header.querySelector('i');
-            if(body.style.display === 'block') {
-                body.style.display = 'none';
-                icon.className = 'fa-solid fa-chevron-down';
-            } else {
-                body.style.display = 'block';
-                icon.className = 'fa-solid fa-chevron-up';
-            }
-        }
+        function openCalc(id) { document.getElementById('calc-menu').style.display = 'none'; document.querySelectorAll('.calculator-view').forEach(v => v.style.display='none'); document.getElementById('calc-'+id).style.display = 'block'; document.querySelectorAll('.result-box').forEach(b => b.style.display='none'); }
+        function closeCalc() { document.querySelectorAll('.calculator-view').forEach(v => v.style.display='none'); document.getElementById('calc-menu').style.display = 'grid'; }
 
+        function calculateUrine() { const vol = parseFloat(document.getElementById('uVol').value); const conc = parseFloat(document.getElementById('uConc').value); const resDiv = document.getElementById('res-urine'); if(!vol || !conc) return; const res = (vol * conc) / 100; resDiv.style.display = 'block'; resDiv.innerHTML = `<div class="result-val">${res.toFixed(2)} mg/gün</div><div class="result-desc">${(res/1000).toFixed(3)} g/gün</div>`; }
+        function calculateLDL() { const tot = parseFloat(document.getElementById('ldl-tot').value); const hdl = parseFloat(document.getElementById('ldl-hdl').value); const trig = parseFloat(document.getElementById('ldl-trig').value); const resDiv = document.getElementById('res-ldl'); if(!tot || !hdl || !trig) return; if(trig > 400) { resDiv.style.display='block'; resDiv.innerHTML='<span style="color:var(--danger)">Trigliserid > 400! Formül geçersiz.</span>'; return; } const ldl = tot - hdl - (trig/5); resDiv.style.display = 'block'; resDiv.innerHTML = `<div class="result-val">${ldl.toFixed(0)} mg/dL</div><div class="result-desc">Friedewald</div>`; }
+        function calculateHoma() { const glu = parseFloat(document.getElementById('homa-glu').value); const ins = parseFloat(document.getElementById('homa-ins').value); const resDiv = document.getElementById('res-homa'); if(!glu || !ins) return; const homa = (glu * ins) / 405; resDiv.style.display = 'block'; resDiv.innerHTML = `<div class="result-val">${homa.toFixed(2)}</div><div class="result-desc">${homa>2.5 ? 'İnsülin Direnci Riski' : 'Normal'}</div>`; }
+        function calculateCa() { const ca = parseFloat(document.getElementById('ca-tot').value); const alb = parseFloat(document.getElementById('ca-alb').value); const resDiv = document.getElementById('res-ca'); if(!ca || !alb) return; const corr = ca + 0.8 * (4.0 - alb); resDiv.style.display = 'block'; resDiv.innerHTML = `<div class="result-val">${corr.toFixed(2)} mg/dL</div><div class="result-desc">Düzeltilmiş Ca</div>`; }
 
-        // --- 4. HESAPLAMA MANTIĞI (Eski Kodlar) ---
-        function openCalc(id) {
-            document.getElementById('calc-menu').style.display = 'none';
-            document.querySelectorAll('.calculator-view').forEach(v => v.style.display='none');
-            document.getElementById('calc-'+id).style.display = 'block';
-            document.querySelectorAll('.result-box').forEach(b => b.style.display='none');
-        }
+        function toggleInfo(header) { const body = header.nextElementSibling; const icon = header.querySelector('i'); if(body.classList.contains('show')) { body.classList.remove('show'); icon.className = 'fa-solid fa-chevron-down'; } else { body.classList.add('show'); icon.className = 'fa-solid fa-chevron-up'; } }
+        function saveNotes() { localStorage.setItem('labAssistantNotes', document.getElementById('myNotes').value); const status = document.getElementById('saveStatus'); status.textContent = "Kaydedildi..."; setTimeout(() => status.textContent = "", 1000); }
 
-        function closeCalc() {
-            document.querySelectorAll('.calculator-view').forEach(v => v.style.display='none');
-            document.getElementById('calc-menu').style.display = 'grid';
-        }
-
-        function calculateUrine() {
-            const vol = parseFloat(document.getElementById('uVol').value);
-            const conc = parseFloat(document.getElementById('uConc').value);
-            const resDiv = document.getElementById('res-urine');
-            if(!vol || !conc) return;
-            const res = (vol * conc) / 100;
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `<div class="result-val">${res.toFixed(2)} mg/gün</div><div class="result-desc">${(res/1000).toFixed(3)} g/gün</div>`;
-        }
-
-        function calculateLDL() {
-            const tot = parseFloat(document.getElementById('ldl-tot').value);
-            const hdl = parseFloat(document.getElementById('ldl-hdl').value);
-            const trig = parseFloat(document.getElementById('ldl-trig').value);
-            const resDiv = document.getElementById('res-ldl');
-            if(!tot || !hdl || !trig) return;
-            if(trig > 400) {
-                resDiv.style.display='block'; resDiv.innerHTML='<span style="color:red">Trigliserid > 400! Formül geçersiz.</span>'; return;
-            }
-            const ldl = tot - hdl - (trig/5);
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `<div class="result-val">${ldl.toFixed(0)} mg/dL</div><div class="result-desc">Friedewald</div>`;
-        }
-
-        function calculateHoma() {
-            const glu = parseFloat(document.getElementById('homa-glu').value);
-            const ins = parseFloat(document.getElementById('homa-ins').value);
-            const resDiv = document.getElementById('res-homa');
-            if(!glu || !ins) return;
-            const homa = (glu * ins) / 405;
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `<div class="result-val">${homa.toFixed(2)}</div><div class="result-desc">${homa>2.5 ? 'İnsülin Direnci Riski' : 'Normal'}</div>`;
-        }
-
-        function calculateCa() {
-            const ca = parseFloat(document.getElementById('ca-tot').value);
-            const alb = parseFloat(document.getElementById('ca-alb').value);
-            const resDiv = document.getElementById('res-ca');
-            if(!ca || !alb) return;
-            const corr = ca + 0.8 * (4.0 - alb);
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `<div class="result-val">${corr.toFixed(2)} mg/dL</div><div class="result-desc">Düzeltilmiş Ca</div>`;
-        }
-
-        // --- 5. REHBER & NOTLAR ---
-        function toggleInfo(header) {
-            const body = header.nextElementSibling;
-            if(body.classList.contains('show')) body.classList.remove('show');
-            else body.classList.add('show');
-        }
-
-        window.onload = function() {
-            const saved = localStorage.getItem('labAssistantNotes');
-            if(saved) document.getElementById('myNotes').value = saved;
-            renderTestList(testsDatabase); // İlk açılışta listeyi oluştur
-        };
-
-        function saveNotes() {
-            localStorage.setItem('labAssistantNotes', document.getElementById('myNotes').value);
-            const status = document.getElementById('saveStatus');
-            status.textContent = "Kaydedildi...";
-            setTimeout(() => status.textContent = "", 1000);
-        }
+        window.onload = function() { loadTheme(); const saved = localStorage.getItem('labAssistantNotes'); if(saved) document.getElementById('myNotes').value = saved; switchTab('tab-tests'); };
     </script>
 </body>
 </html>
