@@ -19,8 +19,8 @@
             --text-light: #6b7280;
             --border-color: #e5e7eb;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --danger: #ef4444;
-            --success: #10b981;
+            --danger: #dc2626;
+            --low: #2563eb;
             --radius: 16px;
             --header-bg: linear-gradient(135deg, #0d9488, #115e59);
         }
@@ -37,6 +37,8 @@
             --border-color: #374151;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
             --header-bg: linear-gradient(135deg, #134e4a, #042f2e);
+            --danger: #ef4444;
+            --low: #60a5fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -50,18 +52,15 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- HEADER (DÜZELTİLDİ: Sticky kaldırıldı) --- */
+        /* --- HEADER --- */
         header {
             background: var(--header-bg);
             color: white;
-            padding: 2.5rem 1.5rem 4.5rem 1.5rem; 
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
+            padding: 1.5rem 1.5rem 2.5rem 1.5rem; 
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
             box-shadow: var(--shadow);
-            
-            /* Sticky (yapışkan) özellik iptal edildi. Artık sayfa ile kayacak. */
             position: relative; 
-            
             z-index: 100;
             display: flex;
             justify-content: space-between;
@@ -70,20 +69,20 @@
         
         .header-content { flex: 1; text-align: center; padding-left: 40px; }
         header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.5px; line-height: 1.2; }
-        header p { font-size: 0.9rem; opacity: 0.9; margin-top: 8px; font-weight: 400; }
+        header p { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; font-weight: 400; }
 
         .theme-toggle {
             background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: background 0.3s;
         }
 
@@ -94,12 +93,9 @@
             gap: 10px;
             width: fit-content; 
             min-width: 320px;
-            
-            /* Header ile birlikte hareket edeceği için bu negatif margin artık sorun yaratmaz */
-            margin: -40px auto 20px auto; 
-            
+            margin: -20px auto 20px auto; 
             background: var(--bg-card);
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 20px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
             position: relative;
@@ -139,7 +135,7 @@
         }
 
         /* --- CONTAINER --- */
-        .container { max-width: 800px; margin: 0 auto; padding: 0 15px 80px 15px; flex: 1; }
+        .container { max-width: 900px; /* Genişletildi */ margin: 0 auto; padding: 0 15px 80px 15px; flex: 1; }
         .section { display: none; animation: fadeIn 0.3s ease; }
         .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -189,15 +185,8 @@
         
         [data-theme="dark"] .result-val, [data-theme="dark"] .result-desc { color: #134e4a; }
 
-        /* --- TEST LİSTESİ (DÜZELTİLDİ: Sticky kaldırıldı) --- */
-        .search-container { 
-            /* Sticky kaldırıldı, artık kaydırınca yukarı gidip kaybolacak */
-            position: relative; 
-            background: var(--bg-body); 
-            padding-bottom: 15px; 
-            z-index: 10; 
-            padding-top: 5px; 
-        }
+        /* --- TEST LİSTESİ --- */
+        .search-container { position: relative; background: var(--bg-body); padding-bottom: 15px; z-index: 10; padding-top: 5px; }
         .search-input { 
             width: 100%; padding: 15px; border-radius: 30px; 
             background: var(--bg-card); border: 1px solid var(--border-color); 
@@ -225,14 +214,39 @@
         .data-label { color: var(--text-light); font-size: 0.85rem; }
         .data-value { font-weight: 600; color: var(--text-main); }
 
-        /* --- DİĞER --- */
+        /* --- REHBER & TABLOLAR (YENİ GRID SİSTEMİ) --- */
         .info-card { background: var(--bg-card); border-radius: var(--radius); overflow: hidden; margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid var(--border-color);}
         .info-header { padding: 18px 20px; background: var(--bg-body); border-bottom: 1px solid var(--border-color); font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--text-main); }
-        .info-body { padding: 20px; display: none; font-size: 0.95rem; line-height: 1.6; color: var(--text-main); }
+        .info-body { padding: 15px; display: none; font-size: 0.95rem; line-height: 1.6; color: var(--text-main); }
         .info-body.show { display: block; }
         
+        /* Grid Layout for Panic Values */
+        .panic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* İki eşit sütun */
+            gap: 20px;
+            align-items: start;
+        }
+
+        .panic-section-title { 
+            font-size: 0.95rem; font-weight: 700; color: var(--primary); 
+            margin: 0 0 10px 0; border-bottom: 2px solid var(--primary-light); 
+            padding-bottom: 5px; display: block; 
+        }
+        
+        .panic-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.8rem; }
+        .panic-table th { text-align: left; color: var(--text-light); font-weight: 600; border-bottom: 2px solid var(--border-color); padding: 6px 4px; font-size: 0.75rem; }
+        .panic-table td { padding: 8px 4px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+        .panic-table tr:last-child td { border-bottom: none; }
+        
+        .val-low { color: var(--low); font-weight: 600; }
+        .val-high { color: var(--danger); font-weight: 600; }
+        .text-unit { color: var(--text-light); font-size: 0.75rem; }
+        .val-note { font-size: 0.75rem; color: var(--text-light); font-style: italic; margin-top: -15px; margin-bottom: 15px; display: block;}
+
         .tag { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; color: white; margin-right: 5px; }
         .tag.red { background: #ef4444; } .tag.yellow { background: #eab308; color: #fff; } .tag.blue { background: #3b82f6; } .tag.purple { background: #a855f7; }
+        .tag.grey { background: #9ca3af; } .tag.green { background: #10b981; }
 
         .notepad { background: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); height: 100%; display: flex; flex-direction: column; border: 1px solid var(--border-color); }
         .note-area { width: 100%; height: 350px; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; font-size: 1rem; line-height: 1.6; resize: none; outline: none; background: var(--bg-input); color: var(--text-main); }
@@ -242,19 +256,15 @@
         .signature { font-weight: 600; color: var(--primary); margin-top: 5px; display: inline-block; }
 
         /* --- MOBİL UYUMLULUK --- */
+        @media (max-width: 768px) {
+            .panic-grid { grid-template-columns: 1fr; /* Mobilde tek sütuna düş */ gap: 10px; }
+        }
+
         @media (max-width: 480px) {
-            header h1 { font-size: 1.25rem; }
-            .nav-tabs { 
-                width: 95%; 
-                margin-top: -30px; 
-                justify-content: space-between; 
-                gap: 5px;
-            }
-            .nav-btn { 
-                font-size: 0.75rem; 
-                width: auto; 
-                flex: 1; 
-            }
+            header h1 { font-size: 1.15rem; }
+            .nav-tabs { width: 95%; margin-top: -20px; justify-content: space-between; gap: 5px; }
+            .nav-btn { font-size: 0.75rem; width: auto; flex: 1; }
+            .panic-table th, .panic-table td { padding: 6px 2px; }
         }
     </style>
 </head>
@@ -371,28 +381,95 @@
             <div class="info-card">
                 <div class="info-header" onclick="toggleInfo(this)"><span>Tüp Renk Kodları</span> <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="info-body">
-                    <p><span class="tag red">Kırmızı</span> <strong>Tüpsüz/Jelli:</strong> Biyokimya, Hormon.</p>
-                    <p style="margin-top:10px;"><span class="tag yellow">Sarı</span> <strong>Jelli:</strong> Rutin Biyokimya.</p>
-                    <p style="margin-top:10px;"><span class="tag purple">Mor</span> <strong>EDTA:</strong> Hemogram, HbA1c.</p>
-                    <p style="margin-top:10px;"><span class="tag blue">Mavi</span> <strong>Sitrat:</strong> Koagülasyon.</p>
+                    <p><span class="tag red">Kırmızı</span> <strong>Boş/Silikon:</strong> Serum (Biyokimya, Hormon).</p>
+                    <p style="margin-top:10px;"><span class="tag yellow">Sarı</span> <strong>Jelli (SST):</strong> Serum (Biyokimya, Hormon).</p>
+                    <p style="margin-top:10px;"><span class="tag purple">Mor</span> <strong>EDTA:</strong> Tam kan/Plazma (Hemogram, HbA1c, ACTH).</p>
+                    <p style="margin-top:10px;"><span class="tag blue">Mavi</span> <strong>Sitrat:</strong> Plazma (Koagülasyon).</p>
+                    <p style="margin-top:10px;"><span class="tag grey">Gri</span> <strong>NaF/Oksalat:</strong> Tam kan (Glukoz).</p>
+                    <p style="margin-top:10px;"><span class="tag green">Yeşil</span> <strong>Heparin:</strong> Tam kan/Plazma.</p>
                 </div>
             </div>
+            
             <div class="info-card">
                 <div class="info-header" onclick="toggleInfo(this)"><span>Kritik (Panik) Değerler</span> <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="info-body">
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom:5px;"><strong>Glukoz:</strong> < 40 veya > 500</li>
-                        <li style="margin-bottom:5px;"><strong>Potasyum:</strong> < 2.5 veya > 6.5</li>
-                        <li style="margin-bottom:5px;"><strong>Kalsiyum:</strong> < 6.0 veya > 13.0</li>
-                    </ul>
-                </div>
+                <div class="info-body" style="padding-top: 15px;">
+                    
+                    <div class="panic-grid">
+                        
+                        <div>
+                            <span class="panic-section-title">BİYOKİMYA</span>
+                            <table class="panic-table">
+                                <tr><th width="35%">Test</th><th>Düşük</th><th>Yüksek</th><th>Birim</th></tr>
+                                <tr><td>Sodyum</td><td class="val-low">&lt;120</td><td class="val-high">&gt;160</td><td class="text-unit">mEq/L</td></tr>
+                                <tr><td>Potasyum (YD)</td><td class="val-low">&lt;2.5</td><td class="val-high">&gt;7.0</td><td class="text-unit">mEq/L</td></tr>
+                                <tr><td>Potasyum (Erişkin)</td><td class="val-low">&lt;2.5</td><td class="val-high">&gt;6.5</td><td class="text-unit">mEq/L</td></tr>
+                                <tr><td>Kalsiyum</td><td class="val-low">&le;6.5</td><td class="val-high">&ge;13</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Ca İyonize (&lt;1y)</td><td class="val-low">&le;2.0</td><td class="val-high">&ge;6.0</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Ca İyonize (&ge;1y)</td><td class="val-low">&le;3.0</td><td class="val-high">&ge;6.5</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Magnezyum</td><td class="val-low">&lt;1.2</td><td class="val-high">&gt;4.9</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Fosfor</td><td class="val-low">&lt;1.0</td><td>-</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Bilirubin (YD)</td><td>-</td><td class="val-high">&gt;25.0</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Glukoz (YD)</td><td class="val-low">&lt;40</td><td class="val-high">&gt;200</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Glukoz (Erişkin)</td><td class="val-low">&lt;50</td><td class="val-high">&gt;400</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Glukoz (BOS)</td><td class="val-low">&lt;20</td><td>-</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Amonyak (&lt;1y)</td><td>-</td><td class="val-high">&gt;152</td><td class="text-unit">ug/dL</td></tr>
+                                <tr><td>Laktat</td><td>-</td><td class="val-high">36</td><td class="text-unit">mg/dL</td></tr>
+                                <tr><td>Ozmolalite</td><td class="val-low">&lt;265</td><td class="val-high">320</td><td class="text-unit">mOsm/kg</td></tr>
+                            </table>
+                        </div>
+
+                        <div>
+                            <span class="panic-section-title">ARTERİYEL KAN GAZLARI</span>
+                            <table class="panic-table">
+                                <tr><th width="35%">Test</th><th>Düşük</th><th>Yüksek</th><th>Birim</th></tr>
+                                <tr><td>pH</td><td class="val-low">&lt;7.20</td><td class="val-high">&gt;7.6</td><td class="text-unit">-</td></tr>
+                                <tr><td>pO2</td><td class="val-low">&lt;40</td><td>-</td><td class="text-unit">mmHg</td></tr>
+                                <tr><td>pCO2</td><td class="val-low">&lt;20</td><td class="val-high">&gt;70</td><td class="text-unit">mmHg</td></tr>
+                                <tr><td>Laktat</td><td>-</td><td class="val-high">4</td><td class="text-unit">mmol/L</td></tr>
+                                <tr><td>COHb</td><td>-</td><td class="val-high">&gt;20</td><td class="text-unit">%</td></tr>
+                                <tr><td>MetHb</td><td>-</td><td class="val-high">&gt;30</td><td class="text-unit">%</td></tr>
+                            </table>
+                            <span class="val-note">*Venöz kan için bildirim yapılmaz.</span>
+
+                            <span class="panic-section-title">CBC / KOAGÜLASYON</span>
+                            <table class="panic-table">
+                                <tr><th width="35%">Test</th><th>Düşük</th><th>Yüksek</th><th>Birim</th></tr>
+                                <tr><td>Hb (Erişkin)</td><td class="val-low">&lt;7</td><td class="val-high">&gt;20</td><td class="text-unit">g/dL</td></tr>
+                                <tr><td>Hb (YD)</td><td class="val-low">&lt;9.5</td><td class="val-high">&gt;22</td><td class="text-unit">g/dL</td></tr>
+                                <tr><td>Hct (Erişkin)</td><td class="val-low">&lt;20</td><td class="val-high">&gt;60</td><td class="text-unit">%</td></tr>
+                                <tr><td>Hct (YD)</td><td class="val-low">&lt;33</td><td class="val-high">&gt;70</td><td class="text-unit">%</td></tr>
+                                <tr><td>Lökosit (x10^3)</td><td class="val-low">&lt;2</td><td class="val-high">&gt;30</td><td class="text-unit">/µL</td></tr>
+                                <tr><td>Trombosit</td><td class="val-low">&lt;40</td><td class="val-high">&gt;1000</td><td class="text-unit">x10^3/µL</td></tr>
+                                <tr><td>Trombosit YD</td><td class="val-low">&lt;30</td><td>-</td><td class="text-unit">/µL</td></tr>
+                                <tr><td>INR</td><td>-</td><td class="val-high">&gt;5.0</td><td class="text-unit">-</td></tr>
+                                <tr><td>aPTT</td><td>-</td><td class="val-high">&gt;120</td><td class="text-unit">sn</td></tr>
+                            </table>
+
+                            <span class="panic-section-title">İLAÇ DÜZEYLERİ (Kritik Yüksek)</span>
+                            <table class="panic-table">
+                                <tr><th width="45%">İlaç</th><th>Değer</th><th>Birim</th></tr>
+                                <tr><td>Digoksin</td><td class="val-high">&gt;2.5</td><td class="text-unit">µg/L</td></tr>
+                                <tr><td>Fenitoin</td><td class="val-high">&gt;25</td><td class="text-unit">mg/L</td></tr>
+                                <tr><td>Fenobarbital</td><td class="val-high">&gt;40</td><td class="text-unit">mg/L</td></tr>
+                                <tr><td>Karbamazepin</td><td class="val-high">&gt;15</td><td class="text-unit">mg/L</td></tr>
+                                <tr><td>Lityum</td><td class="val-high">&gt;1.5</td><td class="text-unit">mmol/L</td></tr>
+                                <tr><td>Metotreksat</td><td class="val-high">&gt;5</td><td class="text-unit">µmol/L</td></tr>
+                                <tr><td>Primidon</td><td class="val-high">&gt;15</td><td class="text-unit">mg/L</td></tr>
+                                <tr><td>Salisilat</td><td class="val-high">&gt;300</td><td class="text-unit">mg/L</td></tr>
+                                <tr><td>Siklosporin</td><td class="val-high">&gt;500</td><td class="text-unit">µg/L</td></tr>
+                                <tr><td>Teofilin</td><td class="val-high">&gt;20</td><td class="text-unit">mg/L</td></tr>
+                                <tr><td>Valproik asit</td><td class="val-high">&gt;150</td><td class="text-unit">mg/L</td></tr>
+                            </table>
+                        </div>
+
+                    </div> </div>
             </div>
         </div>
 
         <div id="tab-notes" class="section">
             <div class="notepad">
                 <h3 style="margin-bottom: 10px; color: var(--primary);">Kişisel Notlar</h3>
-                <textarea id="myNotes" class="note-area" placeholder="Kaydedilen notlar sadece sizde gözükmektedir." oninput="saveNotes()"></textarea>
+                <textarea id="myNotes" class="note-area" placeholder="Kaydedilen notlar sadece sizin tarafınızca görüntülenir." oninput="saveNotes()"></textarea>
                 <div id="saveStatus" class="note-status"></div>
             </div>
         </div>
