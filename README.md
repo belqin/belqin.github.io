@@ -1,95 +1,79 @@
-🧬 BioAsistan Pro - Laboratuvar Yönetim Sistemi
-BioAsistan Pro, Tıbbi Biyokimya laboratuvarlarında çalışan uzmanlar, asistanlar ve teknikerler için geliştirilmiş; günlük rutin hesaplamaları, test parametre bilgilerini ve nöbet notlarını tek bir platformda toplayan mobil uyumlu bir web uygulamasıdır.
+🧪 Medical Biochemistry Assistant
+Medical Biochemistry Assistant is a comprehensive, single-page web application designed for laboratory specialists, residents, and healthcare professionals. It streamlines complex biochemical calculations, provides quick access to laboratory guidelines, and offers a personal note-taking interface.
 
-🎯 Proje Amacı
-Laboratuvar ortamında sıkça ihtiyaç duyulan karmaşık formülleri (LDL, Düzeltilmiş Kalsiyum vb.) hızlıca hesaplamak, test parametrelerinin cihaz bazlı referans aralıklarına (Beckman, Roche vb.) anında ulaşmak ve nöbet sırasında kağıt-kalem aramadan not alabilmek amacıyla tasarlanmıştır.
+🚀 Features
+This tool is built to be fast, responsive, and precise, offering over 25+ clinical calculators tailored for daily laboratory use.
 
-✨ Özellikler
-🧮 1. Akıllı Hesaplayıcılar
-Klinik laboratuvarda en çok kullanılan formüller entegre edilmiştir:
+🧮 Advanced Clinical Calculators
+Kidney Function:
 
-24 Saatlik İdrar: Volüm ve konsantrasyon üzerinden protein/metabolit hesabı.
+Advanced GFR Calculator: Supports CKD-EPI 2021 (Creatinine & Cystatin C without race factor), CKD-EPI 2009, and CKD-EPI 2012 (with dynamic race factor selection).
 
-LDL Kolesterol (Friedewald): Trigliserid < 400 mg/dL kontrolü ile otomatik hesaplama.
+Spot Urine Analysis: Protein/Creatinine, Albumin/Creatinine, Calcium/Creatinine ratios.
 
-HOMA-IR: İnsülin direnci değerlendirmesi.
+24-Hour Urine: Protein, Creatinine Clearance, etc.
 
-Düzeltilmiş Kalsiyum: Albümin seviyesine göre kalsiyum düzeltmesi.
+Metabolic & Cardiac:
 
-🔬 2. İnteraktif Test Rehberi
-Dinamik arama özelliği ile test parametrelerine hızlı erişim sağlar. Her test için:
+LDL Cholesterol (Friedewald Formula).
 
-Test Kodu ve Tam Adı
+HOMA-IR (Insulin Resistance).
 
-Kullanılan Cihaz Markaları (Örn: Beckman Coulter, Roche Cobas)
+HbA1c Converter (NGSP % ↔ mmol/mol IFCC).
 
-Ölçüm Yöntemleri (Hekzokinaz, Jaffe, IFCC vb.)
+Liver & Gastroenterology:
 
-Referans Aralıkları ve Örnek Türleri
+FIB-4 Score (Liver Fibrosis).
 
-Genişletilebilir JSON tabanlı veri yapısı.
+SAAG (Serum Ascites Albumin Gradient).
 
-📘 3. Pratik Bilgi Bankası
-Tüp Renk Kodları: Hangi testin hangi tüpe (Sarı, Mor, Mavi vb.) alınması gerektiği.
+Albumin/Globulin Ratio.
 
-Panik Değerler: Kritik seviyeler için hızlı referans listesi.
+Electrolytes & Acid-Base:
 
-📝 4. Dijital Asistan (Notlar)
-LocalStorage teknolojisi kullanılarak tarayıcı tabanlı not alma sistemi.
+Corrected Calcium, Sodium, Magnesium.
 
-Sayfa yenilense veya tarayıcı kapansa bile notlarınız kaybolmaz.
+Estimated Ionized Calcium (Zeisler variation).
 
-🛠️ Teknolojiler
-Bu proje, herhangi bir dış kütüphane veya framework bağımlılığı olmadan, saf web teknolojileri ile geliştirilmiştir:
+Anion Gap.
 
-HTML5: Semantik yapı.
+Calculated Osmolality.
 
-CSS3: Responsive (Mobil Uyumlu) tasarım, CSS Variables, Flexbox ve Grid sistemleri.
+Blood Gas pH Estimation & [H+] Validation (Henderson-Hasselbalch check).
 
-JavaScript (ES6+): DOM manipülasyonu, dinamik veri filtreleme ve LocalStorage yönetimi.
+Hematology & Coagulation:
 
-FontAwesome: İkon seti.
+Mentzer Index (Thalassemia vs. Iron Deficiency).
 
-Google Fonts: Inter yazı tipi ailesi.
+RBC Indices calculations.
 
-🚀 Kurulum ve Kullanım
-Proje tamamen "Client-Side" (İstemci Taraflı) çalışır. Herhangi bir sunucu kurulumuna ihtiyaç duymaz.
+Corrected Reticulocyte Count.
 
-Bu repoyu klonlayın veya ZIP olarak indirin:
+INR Calculation.
 
-Bash
+Hormones & Oncology:
 
-git clone https://github.com/kullaniciadi/bioasistan-pro.git
-Klasör içindeki index.html dosyasını favori tarayıcınızda (Chrome, Safari, Firefox) açın.
+FAI (Free Androgen Index): Includes unit conversion logic (ng/dL ↔ nmol/L).
 
-Uygulama kullanıma hazırdır!
+Free PSA Percentage.
 
-📱 Ekran Görüntüleri
-(Buraya uygulamanın ekran görüntülerini ekleyebilirsiniz) | Hesaplama Ekranı | Test Detayları | |:---:|:---:| | | |
+🧰 Technologies Used
+HTML5: Semantic structure.
 
-🔮 Gelecek Planları (Roadmap)
-[ ] PDF Rapor oluşturma özelliği.
+CSS3: Modern styling with CSS Variables (for theming), Flexbox, and Grid layouts.
 
-[ ] Daha fazla test parametresinin veritabanına eklenmesi.
+JavaScript (ES6+): Core logic for calculations, DOM manipulation, state management, and LocalStorage.
 
-[ ] Çocuk/Yetişkin referans aralığı seçeneği.
+FontAwesome: For UI icons.
 
-[ ] Dark Mode (Karanlık Mod) desteği.
+Google Fonts: Typography (Inter font).
 
-🤝 Katkıda Bulunma
-Laboratuvar standartlarına uygun yeni test parametreleri eklemek veya kod geliştirmek isterseniz:
+⚠️ Disclaimer
+This software is developed as a Medical Biochemistry Assistant Tool for educational and general informational purposes only. The calculation results are intended to assist professionals but should not be used as the sole basis for medical diagnosis or treatment decisions. Results should always be evaluated in conjunction with clinical findings and laboratory reference ranges.
 
-Fork'layın.
+🤝 Contact
+For feedback, suggestions, or error reporting:
 
-Yeni bir dal (branch) oluşturun (git checkout -b yeni-ozellik).
+Developer: Uzm. Dr. Belgin ŞARA
 
-Değişikliklerinizi yapın (git commit -m 'Yeni test eklendi: Ferritin').
-
-Branch'inizi pushlayın (git push origin yeni-ozellik).
-
-Pull Request oluşturun.
-
-👤 Hazırlayan
-Belgin - Tıbbi Biyokimya Uzmanı & Yazılım Geliştirici
-
-Bu proje açık kaynaklıdır ve eğitim/laboratuvar asistanlığı amacıyla geliştirilmiştir.
+Email: belginsaraa@gmail.com
